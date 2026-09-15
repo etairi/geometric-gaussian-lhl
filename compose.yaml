@@ -1,0 +1,12 @@
+services:
+  certificate:
+    build:
+      context: .
+    image: geometric-gaussian-lhl:local
+    init: true
+    volumes:
+      - lake-cache:/workspace/.lake
+
+volumes:
+  lake-cache:
+    name: geometric-gaussian-lhl_lake-cache-434-rc2

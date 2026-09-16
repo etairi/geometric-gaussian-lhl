@@ -1,39 +1,19 @@
-# Lean Certificate for the Geometric Gaussian LHL
+# Lean Certificates for the Geometric Gaussian LHL
 
-This repository formalizes *Gaussian Kernel Lattices over Number Fields:
-Smoothing Bounds from Theta Integrals*. **All 28 in-scope numbered statements
-of the corrected paper have verified Lean counterparts (100% statement coverage)**.
-The finite-input numerical construction and polynomial-cost guarantees supporting
-the Gaussian-shaping remark are also proved, as are the quantitative consequences
-in Remarks 4.13 and 4.16.
-
-The full native build and axiom audit pass for **27 modules / 44,139 Lean lines / 1,877 audited declarations**.
-
-The scope includes Sections 2–4 and 5.1 and the corresponding headline
-assertions. Figures, Section 5.2, and technical Section 6 are excluded.
-Corollaries 5.2 and 5.3 are in Section 5.1 and remain included.
-The theorem statements include the corrected hypotheses and probability budgets.
-
-The computational approach follows the midpoint-Hessian reference project:
-explicit algorithms produce values and accumulate declared arithmetic costs.
-Operand bit sizes and composed costs must be proved polynomial in finite input
-length and requested precision. The former RAM/Turing implementation and the
-complexitylib dependency have been removed at the user's request. The numerical
-accuracy, canonical-coordinate, and Gaussian-law proofs are retained and refer
-directly to rational algorithm outputs. The measured input consists of supplied
-finite algebraic metric and width data and the integral coefficient table.
-Representation availability is proved; conversion from an unspecified field
-presentation is not part of the charged algorithm. Requested precision is
-charged by its value.
+This repository contains Lean 4 certificates for the manuscript
+*Gaussian Kernel Lattices over Number Fields: Smoothing Bounds from Theta
+Integrals*. `GeometricGaussianLHL` covers Sections 2–4 and 5.1.
+`SISToKSIS` formalizes the reduction in Section 7 of ePrint 2025/1852 with the
+improved finite parameters from Section 5.2, reusing the geometric Gaussian LHL.
+Both libraries share this Lake project.
 
 ## Requirements
 
 - `elan` and Lake
-- Lean `v4.34.0-rc2`, pinned in `lean-toolchain`
-- Mathlib at `e06eff5f95374108acfaf19f1ff7473aa7771df2`
+- the Lean version in `lean-toolchain` (`v4.34.0-rc2`)
 
-`lake-manifest.json` pins Mathlib and its dependencies. No complexitylib or CSLib
-package is required. Builds can reuse the local `.lake` cache.
+Mathlib and its dependencies are pinned in `lake-manifest.json`. Later builds
+can reuse the local `.lake` cache.
 
 ## Build
 
@@ -44,59 +24,67 @@ lake exe cache get
 lake build
 ```
 
-The default library target checks every certificate module, ending with
-`GeometricGaussianLHL.Audit`, which prints axiom dependencies. After the first
-build, `lake build` alone is sufficient.
+The default targets include all 27 geometric certificate modules and all 29
+SIS-to-kSIS modules, including both axiom audits. After the first build,
+`lake build` alone is sufficient.
 
-The audit and certificate roots can also be built explicitly:
+The geometric audit and public certificate can also be built explicitly:
 
 ```sh
 lake build GeometricGaussianLHL.Audit
 lake build GeometricGaussianLHL.Certificate
 ```
 
+To build the reduction and its audit, together with the geometric modules it
+imports:
+
+```sh
+lake build SISToKSIS
+```
+
 For a clean rebuild:
 
 ```sh
 lake clean
+lake exe cache get
 lake build
 ```
 
-`lake clean` removes project build products while retaining dependencies.
+`lake clean` removes project build products but retains downloaded dependencies.
+The cache command restores available precompiled Mathlib artifacts.
 
 ## Docker Support
 
-Docker provides the pinned Lean toolchain and a Linux build environment.
-Docker Engine with Compose, or Docker Desktop, is sufficient.
+Docker provides the pinned Lean toolchain and a Linux build environment, so no
+host installation of Lean or Lake is required. Docker Engine with the Compose
+plugin, or Docker Desktop, is sufficient.
 
-The image build and full containerized certificate check passed on `linux/arm64`
-for the earlier 28-module layout. The current 27-module layout has native build
-and axiom-audit validation; Docker has not been rerun for this cleanup.
-For further development, use native Lean checks and reserve Docker for final validation.
+The recommended workflow uses Compose because its named volume preserves
+dependencies, the downloaded Mathlib cache, and project build products:
 
 ```sh
 docker compose build
 docker compose run --rm certificate
 ```
 
-The `lake-cache` named volume preserves dependencies, Mathlib's precompiled
-cache, its downloaded archives, and project build products between runs.
-`MATHLIB_CACHE_DIR` points inside that volume so disposable containers reuse
-the archives. To discard it:
+The first run downloads Mathlib's precompiled cache and checks both certificates.
+Later runs reuse the `lake-cache` volume. To intentionally discard that cache
+and force a fresh build, run:
 
 ```sh
 docker compose down --volumes
 ```
 
-Without Compose:
+The image can also be used without Compose:
 
 ```sh
 docker build --tag geometric-gaussian-lhl:local .
 docker run --rm --init geometric-gaussian-lhl:local
 ```
 
-The Debian base and elan installer support `linux/amd64` and `linux/arm64`.
-To select a platform explicitly:
+The Debian base image and `elan` installer support both `linux/amd64` and
+`linux/arm64`; Docker automatically chooses the native platform. A specific
+platform can be selected for CI or cross-platform testing:
 
 ```sh
 docker buildx build --platform linux/amd64 --load \
@@ -105,65 +93,110 @@ docker buildx build --platform linux/arm64 --load \
   --tag geometric-gaussian-lhl:arm64 .
 ```
 
-The `linux/amd64` build example has not been tested here.
+The complete native and `linux/arm64` Docker builds have passed, including both
+axiom audits. The `linux/amd64` build has not been tested. Emulated builds are
+slower than native builds.
 
 ## Kernel Audit
 
-[Audit.lean](GeometricGaussianLHL/Audit.lean) prints the axiom dependencies of
-the principal completed results. Only Lean's standard logical foundations
-are permitted: `propext`, `Classical.choice`, and `Quot.sound`.
+[`GeometricGaussianLHL/Audit.lean`](GeometricGaussianLHL/Audit.lean) prints the
+axiom dependencies of 1,877 certificate declarations.
+[`SIS-to-kSIS/Audit.lean`](SIS-to-kSIS/Audit.lean) recursively audits 2,958
+declarations in the reduction namespace and rejects unexpected axioms.
+Successful audits report only Lean's standard logical foundations:
+`propext`, `Classical.choice`, and `Quot.sound`.
 
-The project does not use `sorry`, `admit`, new axioms, or `native_decide` to
-stand in for mathematical proofs. A clean axiom audit alone does not establish
-paper coverage; the scope and hypotheses of the theorem statements also matter.
+The principal geometric declarations, in namespace `GeometricGaussianLHL`, are:
+
+- `numberField_polynomial_lhl`
+- `numberField_constantWidth_lhl`
+- `numberField_polynomial_finite_spectral`
+- `numberField_constantWidth_finite_spectral`
+- `canonicalFinite_endToEnd_certificate`
+
+The principal reduction declarations, in namespace `SISToKSIS`, are:
+
+- `encodedReductionRun_field_law`
+- `encodedReduction_joint_game`
+- `encodedReductionRun_polynomial`
+- `powerTwo_polynomial_encoded_SIS_reduction`
+- `powerTwo_constant_encoded_SIS_reduction`
+
+The final reduction theorems bound the success probability of the implemented
+finite program, including Gaussian sampling, hint construction, the oracle call,
+and extraction. They cover both geometric parameter regimes. The scope excludes
+figures, the technical material in Section 6, k-LWE, asymptotic prime search, and
+a separate reduction theorem for asymptotic security families.
+
+The computational certificates use explicit algorithms with declared arithmetic
+costs and proved polynomial operand and output sizes, following the
+midpoint-Hessian approach. Inputs include supplied finite algebraic metric and
+width data; the reduction also takes an encoded basis multiplication table,
+unit coordinates, and source matrix. Requested precision is charged by its
+value. Conversion from an unspecified field presentation is outside the charged
+algorithm. The reduction's polynomial bound assumes a polynomial declared-cost
+and output-length contract for its oracle.
 
 ## Module Organization
 
-The certificate has **27 proof modules**, all under `GeometricGaussianLHL/`.
-Including `lakefile.lean`, the project contains **28 Lean source files** outside
-dependencies and temporary verification files. All 27 modules are explicit Lake
-roots and are reachable from `Audit.lean`.
+Every proof module is an explicit Lake root. The two libraries contain 56 Lean
+source files, grouped below by proof component; dependencies are recorded in
+their imports. Substantial modules retain named internal sections for navigation.
 
-`Certificate.lean` is the stable public import. The retained results keep their
-theorem names and namespaces; imports of the former small modules must use their new locations.
-The contents overviews list the named sections corresponding to the former
-small modules. Shared definitions are placed in earlier dependency layers.
+### Geometric Gaussian LHL
 
-| Module | Contents |
-| --- | --- |
-| [Foundations.lean](GeometricGaussianLHL/Foundations.lean) | Coefficient kernels, duality, and basic parameters |
-| [LatticeGeometry.lean](GeometricGaussianLHL/LatticeGeometry.lean) | Intrinsic lattice geometry and covolumes |
-| [NumberFieldGeometry.lean](GeometricGaussianLHL/NumberFieldGeometry.lean) | Canonical number-field coordinates and Gram geometry |
-| [CyclotomicGeometry.lean](GeometricGaussianLHL/CyclotomicGeometry.lean) | Prime-power and power-of-two geometry |
-| [Probability.lean](GeometricGaussianLHL/Probability.lean) | Discrete probability and total variation |
-| [GaussianAnalysis.lean](GeometricGaussianLHL/GaussianAnalysis.lean) | Gaussian integrals, products, and periodization |
-| [GaussianPoisson.lean](GeometricGaussianLHL/GaussianPoisson.lean) | Poisson summation and lattice Gaussian flatness |
-| [GaussianMoments.lean](GeometricGaussianLHL/GaussianMoments.lean) | Gaussian moments, tails, and column estimates |
-| [GaussianPushforward.lean](GeometricGaussianLHL/GaussianPushforward.lean) | Gaussian pushforwards and parameter stability |
-| [SmoothingBounds.lean](GeometricGaussianLHL/SmoothingBounds.lean) | Smoothing bounds and natural scales |
-| [SpectralBounds.lean](GeometricGaussianLHL/SpectralBounds.lean) | Random-matrix spectral bounds |
-| [ThetaIntegral.lean](GeometricGaussianLHL/ThetaIntegral.lean) | Theta integrals and coset decomposition |
-| [PolynomialWidth.lean](GeometricGaussianLHL/PolynomialWidth.lean) | Polynomial-width smoothing theorems |
-| [ConstantWidth.lean](GeometricGaussianLHL/ConstantWidth.lean) | Constant-width smoothing theorems |
-| [ShapingGeometry.lean](GeometricGaussianLHL/ShapingGeometry.lean) | Exact spherical shaping and canonical Gram coordinates |
-| [Encoding.lean](GeometricGaussianLHL/Encoding.lean) | Finite encodings and dyadic storage |
-| [ArithmeticCost.lean](GeometricGaussianLHL/ArithmeticCost.lean) | Arithmetic executions and polynomial cost bounds |
-| [AlgebraicInput.lean](GeometricGaussianLHL/AlgebraicInput.lean) | Finite algebraic inputs and interval refinement |
-| [MatrixArithmetic.lean](GeometricGaussianLHL/MatrixArithmetic.lean) | Matrix arithmetic, normalization, and costs |
-| [MatrixApproximation.lean](GeometricGaussianLHL/MatrixApproximation.lean) | Matrix square-root algorithms, accuracy, and costs |
-| [RationalShaping.lean](GeometricGaussianLHL/RationalShaping.lean) | Rational shaping and metric normalization |
-| [CanonicalShaping.lean](GeometricGaussianLHL/CanonicalShaping.lean) | Canonical shaping from finite algebraic input |
-| [GaussianLHL.lean](GeometricGaussianLHL/GaussianLHL.lean) | Geometric Gaussian leftover-hash theorems |
-| [SphericalLHL.lean](GeometricGaussianLHL/SphericalLHL.lean) | Spherical leftover-hash theorems and simultaneous hints |
-| [FiniteInputCertificate.lean](GeometricGaussianLHL/FiniteInputCertificate.lean) | Finite-input Gaussian application certificates |
-| [Certificate.lean](GeometricGaussianLHL/Certificate.lean) | Public certificate entry point |
-| [Audit.lean](GeometricGaussianLHL/Audit.lean) | Axiom audit of the completed certificate |
+The 27 modules in [`GeometricGaussianLHL/`](GeometricGaussianLHL/) are:
 
-Each substantial module has a contents overview and named proof sections.
-Sections retain the old module names for navigation; related algorithms,
-accuracy proofs and cost bounds now share a file. Shared encoding and arithmetic
-definitions sit below the numerical algorithms in the import graph.
+| Component | Modules | Role |
+| --- | --- | --- |
+| Lattice and number-field geometry | [Foundations.lean](GeometricGaussianLHL/Foundations.lean), [LatticeGeometry.lean](GeometricGaussianLHL/LatticeGeometry.lean), [NumberFieldGeometry.lean](GeometricGaussianLHL/NumberFieldGeometry.lean), [CyclotomicGeometry.lean](GeometricGaussianLHL/CyclotomicGeometry.lean) | Coefficient kernels, duality, covolumes, and canonical field coordinates |
+| Probability and Gaussian analysis | [Probability.lean](GeometricGaussianLHL/Probability.lean), [GaussianAnalysis.lean](GeometricGaussianLHL/GaussianAnalysis.lean), [GaussianPoisson.lean](GeometricGaussianLHL/GaussianPoisson.lean), [GaussianMoments.lean](GeometricGaussianLHL/GaussianMoments.lean), [GaussianPushforward.lean](GeometricGaussianLHL/GaussianPushforward.lean) | Total variation, Gaussian integrals, Poisson summation, moments, and pushforwards |
+| Geometric smoothing bounds | [SmoothingBounds.lean](GeometricGaussianLHL/SmoothingBounds.lean), [SpectralBounds.lean](GeometricGaussianLHL/SpectralBounds.lean), [ThetaIntegral.lean](GeometricGaussianLHL/ThetaIntegral.lean), [PolynomialWidth.lean](GeometricGaussianLHL/PolynomialWidth.lean), [ConstantWidth.lean](GeometricGaussianLHL/ConstantWidth.lean) | Theta-integral and spectral estimates for both width regimes |
+| Finite inputs and costs | [Encoding.lean](GeometricGaussianLHL/Encoding.lean), [ArithmeticCost.lean](GeometricGaussianLHL/ArithmeticCost.lean), [AlgebraicInput.lean](GeometricGaussianLHL/AlgebraicInput.lean) | Finite encodings, algebraic input refinement, and declared arithmetic costs |
+| Gaussian shaping | [ShapingGeometry.lean](GeometricGaussianLHL/ShapingGeometry.lean), [MatrixArithmetic.lean](GeometricGaussianLHL/MatrixArithmetic.lean), [MatrixApproximation.lean](GeometricGaussianLHL/MatrixApproximation.lean), [RationalShaping.lean](GeometricGaussianLHL/RationalShaping.lean), [CanonicalShaping.lean](GeometricGaussianLHL/CanonicalShaping.lean) | Exact shaping, numerical matrix algorithms, accuracy, and polynomial costs |
+| Leftover-hash theorems | [GaussianLHL.lean](GeometricGaussianLHL/GaussianLHL.lean), [SphericalLHL.lean](GeometricGaussianLHL/SphericalLHL.lean), [FiniteInputCertificate.lean](GeometricGaussianLHL/FiniteInputCertificate.lean) | Geometric and spherical Gaussian LHLs and their finite-input certificates |
+| Public certificate and audit | [Certificate.lean](GeometricGaussianLHL/Certificate.lean), [Audit.lean](GeometricGaussianLHL/Audit.lean) | Public import and axiom dependencies |
 
-## Licensing
+`Certificate.lean` is the public import for the geometric, Gaussian, and finite
+computational results:
 
-The code is licensed under Apache License 2.0; see [LICENSE](LICENSE).
+```lean
+import GeometricGaussianLHL.Certificate
+```
+
+### SIS-to-kSIS Reduction
+
+The 29 modules in [`SIS-to-kSIS/`](SIS-to-kSIS/) are:
+
+| Component | Modules | Role |
+| --- | --- | --- |
+| Algebra and extraction | [BlockAlgebra.lean](SIS-to-kSIS/BlockAlgebra.lean), [UniformSimulation.lean](SIS-to-kSIS/UniformSimulation.lean), [SolutionExtraction.lean](SIS-to-kSIS/SolutionExtraction.lean) | Exact block identities, uniform public simulation, and nonzero solution extraction |
+| Norms and parameters | [OperatorBounds.lean](SIS-to-kSIS/OperatorBounds.lean), [CanonicalExtraction.lean](SIS-to-kSIS/CanonicalExtraction.lean), [Parameters.lean](SIS-to-kSIS/Parameters.lean) | Operator norm loss and explicit arithmetic and error bounds |
+| Geometric hints | [GeometricHints.lean](SIS-to-kSIS/GeometricHints.lean), [SpectralHints.lean](SIS-to-kSIS/SpectralHints.lean) | Reuse of the geometric LHL and simultaneous spectral hint bounds |
+| Gaussian change of measure | [GaussianChangeOfMeasure.lean](SIS-to-kSIS/GaussianChangeOfMeasure.lean), [AdversaryChangeOfMeasure.lean](SIS-to-kSIS/AdversaryChangeOfMeasure.lean), [GaussianWidths.lean](SIS-to-kSIS/GaussianWidths.lean) | Centered-to-shifted comparison, shift energy, and adversary success loss |
+| Probability games | [GameBounds.lean](SIS-to-kSIS/GameBounds.lean), [HintGames.lean](SIS-to-kSIS/HintGames.lean), [ReverseSampling.lean](SIS-to-kSIS/ReverseSampling.lean), [GaussianConditioning.lean](SIS-to-kSIS/GaussianConditioning.lean) | Conditioning, reverse sampling, and hybrid comparisons |
+| Residue mass and independence | [ModularLattices.lean](SIS-to-kSIS/ModularLattices.lean), [IdealGeometry.lean](SIS-to-kSIS/IdealGeometry.lean), [PrimeResidueBounds.lean](SIS-to-kSIS/PrimeResidueBounds.lean), [ResidueMass.lean](SIS-to-kSIS/ResidueMass.lean), [HintIndependence.lean](SIS-to-kSIS/HintIndependence.lean) | Modular lattices, prime-ideal Gaussian mass, and hint independence |
+| Modular Gaussian regularity | [FiniteResidueGames.lean](SIS-to-kSIS/FiniteResidueGames.lean), [ModularReverseSampling.lean](SIS-to-kSIS/ModularReverseSampling.lean), [ModularDuality.lean](SIS-to-kSIS/ModularDuality.lean), [GaussianRegularity.lean](SIS-to-kSIS/GaussianRegularity.lean), [CosetAveraging.lean](SIS-to-kSIS/CosetAveraging.lean) | Finite quotient laws, dual Gaussian mass, and regularity for uniform public matrices |
+| Finite sampling | [FiniteSampling.lean](SIS-to-kSIS/FiniteSampling.lean), [GaussianFactorization.lean](SIS-to-kSIS/GaussianFactorization.lean) | Finite-word Gaussian samplers, stored matrix algorithms, accuracy, and costs |
+| Final reduction | [ModularRegularity.lean](SIS-to-kSIS/ModularRegularity.lean) | Complete encoded program, oracle integration, and both final parameter theorems |
+| Kernel audit | [Audit.lean](SIS-to-kSIS/Audit.lean) | Recursive axiom audit of the reduction namespace |
+
+`ModularRegularity.lean` assembles the encoded program, its probability laws and
+polynomial costs, and both final parameter theorems. The supporting regularity
+and sampling modules connect the finite implementation to the existing
+geometric LHL. Import the reduction through:
+
+```lean
+import «SIS-to-kSIS».ModularRegularity
+```
+
+## Dependencies and Licensing
+
+Mathlib is pinned to commit
+`e06eff5f95374108acfaf19f1ff7473aa7771df2` in `lakefile.lean` and
+`lake-manifest.json`. It supplies the algebra, analysis, probability, and
+number-field foundations. The SIS-to-kSIS library imports the local
+`GeometricGaussianLHL` library directly.
+
+This repository is licensed under Apache License 2.0; see
+[`LICENSE`](LICENSE).

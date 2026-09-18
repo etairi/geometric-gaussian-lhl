@@ -72,8 +72,8 @@ section ErrorExtension
 /-!
 ## Changing the target error on the same event
 
-Equation (43) and the epsilon extensions in Theorems 4.6 and 4.9. These
-statements use the actual infinite nonzero dual Gaussian mass.
+The error-extension inequality and the epsilon extensions in the polynomial-width and constant-width
+smoothing theorems. These statements use the actual infinite nonzero dual Gaussian mass.
 -/
 
 open scoped ENNReal
@@ -156,8 +156,9 @@ section CoefficientSmoothingBounds
 
 namespace GeometricGaussianLHL
 
-/-- The coefficient-kernel lower bound of Proposition 4.14 is unconditional:
-every integer matrix with more columns than rows has this smoothing bound. -/
+/-- The coefficient-kernel lower bound of the projected-dual-vector proposition is unconditional:
+every integer matrix with more columns than rows has this smoothing bound.
+-/
 theorem coefficientKernel_smoothing_lower {R M : ℕ}
     (A : Matrix (Fin R) (Fin M) ℤ) (hRM : R < M) {ε : ℝ} (hε : 0 < ε) :
     Real.sqrt (Real.log (2 / ε) / Real.pi) ≤ smoothingParameter (euclideanKernel A) ε := by
@@ -280,9 +281,10 @@ theorem canonicalKernel_normalized_covolume_le (b : Basis (Fin d) ℤ (𝓞 K))
   push_cast
   field_simp
 
-/-- Proposition 3.1 for the actual ring matrix and canonical kernel. The
-operator determinant equals `det(A Aᵀ)` in every orthonormal coordinate
-system by `kernelGram_det_eq_orthonormalMatrix`. -/
+/-- The kernel covolume proposition for the actual ring matrix and canonical kernel. The operator
+determinant equals `det(A Aᵀ)` in every orthonormal coordinate system by
+`kernelGram_det_eq_orthonormalMatrix` .
+-/
 theorem canonical_kernel_covolume_certificate (b : Basis (Fin d) ℤ (𝓞 K))
     (X : Matrix (Fin r) (Fin m) (𝓞 K)) (hX : Function.Surjective X.mulVec) (hmr : r < m) :
     finrank ℤ (canonicalKernel K X) = d * (m - r) ∧
@@ -310,10 +312,9 @@ section SmoothingCovolume
 /-!
 ## The covolume lower bound for smoothing
 
-The actual shortest nonzero dual vector gives the first bound in
-Proposition 3.3. Minkowski's theorem, intrinsic covolume reciprocity, and
-the ball-volume estimate give the numerical constant `0.7` in every
-integer rank at least two.
+The actual shortest nonzero dual vector gives the first bound in the smoothing lower-bound
+proposition. Minkowski's theorem, intrinsic covolume reciprocity, and the ball-volume estimate give
+the numerical constant `0.7` in every integer rank at least two.
 -/
 
 noncomputable section
@@ -397,8 +398,8 @@ theorem firstMinimum_dual_mul_covolume_root_le (L : Submodule ℤ E) [DiscreteTo
   have h := mul_le_mul_of_nonneg_right (hmin.trans hnorm) hroot.le
   simpa only [mul_assoc, inv_mul_cancel₀ hroot.ne', mul_one] using h
 
-/-- Both inequalities of Proposition 3.3, using the actual first minimum
-and intrinsic lattice covolume. -/
+/-- Both inequalities of the smoothing lower-bound proposition, using the actual first minimum and
+intrinsic lattice covolume. -/
 theorem smoothing_covolume_certificate (L : Submodule ℤ E) [DiscreteTopology L]
     (hn : 2 ≤ finrank ℤ L) {ε : ℝ} (hε : 0 < ε) (hε1 : ε < 1) :
     Real.sqrt (Real.log (2 / ε) / Real.pi) / firstMinimum (latticeDual L) ≤ smoothingParameter L ε ∧
@@ -450,11 +451,11 @@ section KernelNaturalLower
 /-!
 ## The deterministic natural-scale lower bound
 
-The canonical kernel's normalized covolume is bounded below by the root
-discriminant and the smallest transverse stretch of the actual canonical
-matrix map. Proposition 3.3 then gives the first assertion of Corollary
-3.4, with its necessary rank-at-least-two hypothesis made explicit.
-The probabilistic spectral assertion is a separate obligation.
+The canonical kernel's normalized covolume is bounded below by the root discriminant and the
+smallest transverse stretch of the actual canonical matrix map. The smoothing lower-bound
+proposition then gives the first assertion of the kernel natural-scale corollary, with its necessary
+rank-at-least-two hypothesis made explicit. The probabilistic spectral assertion is a separate
+obligation.
 -/
 
 noncomputable section
@@ -500,8 +501,8 @@ theorem canonicalKernel_normalized_covolume_ge (b : Basis (Fin d) ℤ (𝓞 K))
   push_cast
   field_simp
 
-/-- The deterministic assertion of Corollary 3.4, corrected to require
-kernel rank at least two. No probability estimate is assumed here. -/
+/-- The deterministic assertion of the kernel natural-scale corollary, corrected to require kernel
+rank at least two. No probability estimate is assumed here. -/
 theorem canonicalKernel_natural_smoothing_lower (b : Basis (Fin d) ℤ (𝓞 K))
     (X : Matrix (Fin r) (Fin m) (𝓞 K)) (hX : Function.Surjective X.mulVec)
     (hN : 2 ≤ d * (m - r)) {ε : ℝ} (hε : 0 < ε) (hε1 : ε < 1) :

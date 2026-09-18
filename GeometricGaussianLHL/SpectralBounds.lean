@@ -21,15 +21,15 @@ This module collects the following proof sections, in dependency order.
 - Actual power-of-two Gaussian escape at every embedding (`PowerTwoEmbeddingEscape`).
 - The explicit simplified spectral constant (`SpectralThreshold`).
 - Fixed-vector lower energy for actual power-of-two Gaussian matrices (`PowerTwoEmbeddingEnergy`).
-- The complete upper spectral estimates of Lemmas 2.6 and 2.7 (`NumberFieldSpectralCertificate`).
+- The complete upper spectral estimates (`NumberFieldSpectralCertificate`).
 - Simultaneous upper bounds at every complex embedding (`UniformEmbeddingUpper`).
 - Complex adjoint energy of the actual embedding matrix (`ComplexEmbeddingAdjoint`).
 - The canonical adjoint evaluated at every complex embedding (`CanonicalAdjoint`).
 - Uniform lower spectral failure on the upper-bounded event (`PowerTwoLowerSpectralEvent`).
 - Lower spectral bounds transported to the canonical real operator (`CanonicalSpectralLower`).
 - Simultaneous two-sided complex-block spectral probability (`PowerTwoComplexSpectral`).
-- Corollary 3.4: the spectral natural scale of the canonical kernel (`PowerTwoNaturalScale`).
-- Lemma 2.8: the complete power-of-two singular-value probability bound (`PowerTwoSpectralCertificate`).
+- The spectral natural scale of the canonical kernel (`PowerTwoNaturalScale`).
+- The complete power-of-two singular-value probability bound (`PowerTwoSpectralCertificate`).
 -/
 
 section BilinearNets
@@ -267,7 +267,8 @@ theorem card_le_of_inverse_separated {q : ℕ} (hq : 0 < q) (s : Finset E) (hs :
     exact (mul_le_mul_iff_left₀ (pow_pos hδ _)).mp hh
   exact_mod_cast hcard
 
-/-- A finite sphere net, including the empty sphere in dimension zero. -/
+/-- A finite sphere net, including the empty sphere in dimension zero.
+-/
 theorem exists_inverse_sphere_net (E : Type*) [NormedAddCommGroup E] [NormedSpace ℝ E]
     [FiniteDimensional ℝ E] (q : ℕ) (hq : 0 < q) :
     ∃ s : Finset E, (∀ y ∈ s, ‖y‖ = 1) ∧ s.card ≤ (2 * q + 1) ^ finrank ℝ E ∧
@@ -431,7 +432,8 @@ theorem constant_spectral_joint_error_lt {ell : ℝ} (hell : 1 ≤ ell) :
   linarith [realSecurityError_pos ell]
 
 /-- A numerical error no larger than the geometric budget also fits in the
-spectral single-output security budget. -/
+spectral single-output security budget.
+-/
 theorem polynomial_computed_spectral_error_lt {ell τ : ℝ} (hell : 1 ≤ ell)
     (hτ : τ ≤ realSecurityError (ell + 4)) :
     4 * realSecurityError (ell + 4) + (τ +
@@ -466,8 +468,8 @@ section SphereNets
 /-!
 ## Finite quarter-nets of the unit sphere
 
-The general inverse-integer packing argument, specialized to `q = 4`,
-gives the literal `9^n` net size in Lemmas 2.6 and 2.7.
+The general inverse-integer packing argument, specialized to `q = 4` , gives the literal `9^n` net
+size in the upper spectral lemmas.
 -/
 
 noncomputable section
@@ -1365,7 +1367,7 @@ end PowerTwoEmbeddingEnergy
 section NumberFieldSpectralCertificate
 
 /-!
-## The complete upper spectral estimates of Lemmas 2.6 and 2.7
+## The complete upper spectral estimates
 
 These statements use the actual normalized ring-Gaussian matrix laws and
 the canonical Euclidean matrix. Both the displayed logarithmic threshold
@@ -2007,7 +2009,7 @@ end PowerTwoComplexSpectral
 section PowerTwoNaturalScale
 
 /-!
-## Corollary 3.4: the spectral natural scale of the canonical kernel
+## The spectral natural scale of the canonical kernel
 
 The actual spectral event bounds the smoothing parameter from below on
 the integer-surjectivity event, as stipulated in the paper. Real full row
@@ -2076,7 +2078,8 @@ theorem powerTwo_kernel_natural_lower_of_embeddings (hζ : IsPrimitiveRoot ζ (2
     _ ≤ _ := hg
 
 /-- With probability at least `1-δ`, the natural-scale estimate holds
-whenever the sampled matrix is surjective over the ring of integers. -/
+whenever the sampled matrix is surjective over the ring of integers.
+-/
 theorem powerTwo_kernel_natural_spectral_event (hζ : IsPrimitiveRoot ζ (2 ^ (k + 1)))
     (hr : 0 < r) (hN : 2 ≤ (2 ^ (k + 1)).totient * (m - r))
     {s δ : ℝ} (hs : 0 < s) (hσ : 1 ≤ s / Real.sqrt (2 ^ (k + 1)).totient)
@@ -2107,7 +2110,7 @@ end PowerTwoNaturalScale
 section PowerTwoSpectralCertificate
 
 /-!
-## Lemma 2.8: the complete power-of-two singular-value probability bound
+## The complete power-of-two singular-value probability bound
 
 For the actual spherical ring-Gaussian matrix law, the canonical real
 operator is surjective and its smallest transverse stretch and operator

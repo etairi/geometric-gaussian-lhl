@@ -24,9 +24,9 @@ section PolynomialSphericalEvent
 /-!
 ## The polynomial geometric event with its spherical output width
 
-The width is exactly `B V₀` from Corollary 5.2, where `V₀ = κ μ U √M`.
-Both the smoothing and operator-norm bounds hold on the same event of
-the proved finite number-field Gaussian matrix theorem.
+The width is exactly `B V₀` from the spherical-output corollary, where `V₀ = κ μ U √M` . Both the
+smoothing and operator-norm bounds hold on the same event of the proved finite number-field Gaussian
+matrix theorem.
 -/
 
 noncomputable section
@@ -106,9 +106,9 @@ section ConstantSphericalEvent
 /-!
 ## The constant-width geometric event with its spherical output width
 
-The literal width in Corollary 5.2 is `B V₀`, where `B = 640 √(d H)`
-and `V₀ = (s/√d) √H √M`. The smoothing and operator estimates hold on
-the same event under the actual power-of-two ring-Gaussian matrix law.
+The literal width in the spherical-output corollary is `B V₀` , where `B = 640 √(d H)` and
+`V₀ = (s/√d) √H √M` . The smoothing and operator estimates hold on the same event under the actual
+power-of-two ring-Gaussian matrix law.
 -/
 
 noncomputable section
@@ -261,7 +261,8 @@ theorem numberField_spherical_joint_good_event (b : Basis (Fin d) ℤ (𝓞 K))
   exact numberField_gaussian_spherical_pushforward K b X (hsurj X hX) hw hε hε1 (hwidth X hX) (c X)
 
 /-- The separate spectral-event version explicitly adds its exceptional
-probability. No independence of the two events is required. -/
+probability. No independence of the two events is required.
+-/
 theorem numberField_spherical_joint_two_events (b : Basis (Fin d) ℤ (𝓞 K))
     (p : PMF (Matrix (Fin r) (Fin m) (𝓞 K)))
     (G H : Set (Matrix (Fin r) (Fin m) (𝓞 K)))
@@ -407,9 +408,9 @@ section NumberFieldSphericalLHL
 /-!
 ## Polynomial-width spherical Gaussian leftover hashing
 
-The good event comes from the proved number-field matrix theorem. The
-input uses the actual positive square root prescribed in Corollary 5.2,
-with identity shape on the complement. The width is exactly `B V₀`.
+The good event comes from the proved number-field matrix theorem. The input uses the actual positive
+square root prescribed in the spherical-output corollary, with identity shape on the complement. The
+width is exactly `B V₀` .
 -/
 
 noncomputable section
@@ -521,11 +522,10 @@ section NumberFieldSphericalHints
 /-!
 ## Simultaneous spherical hints over a number field
 
-The source law samples the columns of `R` independently from the shaped
-ring Gaussian and returns the actual matrix `X * R + 1`. The target has
-independent spherical columns centered at the identity columns. For the
-finite polynomial parameters the distance is exactly budgeted by
-`3δ + 2rδ/(1-2δ)`, as in Corollary 5.3.
+The source law samples the columns of `R` independently from the shaped ring Gaussian and returns
+the actual matrix `X * R + 1` . The target has independent spherical columns centered at the
+identity columns. For the finite polynomial parameters the distance is exactly budgeted by
+`3δ + 2rδ/(1-2δ)` , as in the simultaneous-hint corollary.
 -/
 
 noncomputable section
@@ -673,10 +673,9 @@ section SphericalHintEvents
 /-!
 ## Simultaneous hints with a separate spectral event
 
-The geometric and spectral events may be dependent. Their exceptional
-probabilities are each paid once, while only the conditional Gaussian error
-is multiplied by the number of hint columns. These separate budgets apply
-to the spectral specialization of Corollary 5.3.
+The geometric and spectral events may be dependent. Their exceptional probabilities are each paid
+once, while only the conditional Gaussian error is multiplied by the number of hint columns. These
+separate budgets apply to the spectral specialization of the simultaneous-hint corollary.
 -/
 
 noncomputable section
@@ -802,7 +801,8 @@ theorem sphericalOutputCertificate_of_event [Nontrivial (Euclidean (r * d))]
   · exact numberField_spherical_hints_good_event K b p G hsurj hw hprob hε hε1 hactual
 
 /-- The spectral event is proved for the actual matrix PMF, with its
-exceptional probability charged once in both joint laws. -/
+exceptional probability charged once in both joint laws.
+-/
 theorem numberField_spectral_spherical_certificate [Nontrivial (Euclidean (r * d))]
     (b : Basis (Fin d) ℤ (𝓞 K)) (G : Set (Matrix (Fin r) (Fin m) (𝓞 K)))
     (hsurj : ∀ X ∈ G, Function.Surjective X.mulVec)
@@ -893,12 +893,11 @@ section PolynomialSpectralSpherical
 /-!
 ## Spectral spherical output and hints at polynomial coefficient width
 
-This proves the spectral specializations of Corollaries 5.2 and 5.3 from
-the actual finite geometric theorem and the actual spectral probability.
-Every width at least `4 s sqrt(m) B` is allowed, including equality. The
-extra spectral failure is paid once: `4δ + 2δ/(1-2δ)` for one output and
-`4δ + 2rδ/(1-2δ)` for hints. The first is still strictly below `2^(-ell)`.
-The result applies to all number fields, hence to the stated power-of-two case.
+This proves the spectral specializations of the spherical-output and simultaneous-hint corollaries
+from the actual finite geometric theorem and the actual spectral probability. Every width at least
+`4 s sqrt(m) B` is allowed, including equality. The extra spectral failure is paid once:
+`4δ + 2δ/(1-2δ)` for one output and `4δ + 2rδ/(1-2δ)` for hints. The first is still strictly below
+`2^(-ell)` . The result applies to all number fields, hence to the stated power-of-two case.
 -/
 
 noncomputable section

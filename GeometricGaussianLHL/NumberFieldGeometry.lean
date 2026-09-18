@@ -69,7 +69,8 @@ theorem canonicalIntegerVector_injective : Function.Injective (canonicalIntegerV
   exact congrArg (fun z : CanonicalAmbient K => z τ) h
 
 /-- The squared norm is the sum over all complex embeddings, without
-discarding a conjugate or silently using the function-space maximum norm. -/
+discarding a conjugate or silently using the function-space maximum norm.
+-/
 theorem canonicalIntegerVector_norm_sq (x : 𝓞 K) :
     ‖canonicalIntegerVector K x‖ ^ 2 =
       ∑ τ : K →+* ℂ, ‖τ (algebraMap (𝓞 K) K x)‖ ^ 2 := by
@@ -136,9 +137,9 @@ section RootSums
 /-!
 ## Prime-power sums of roots of unity
 
-The Gram calculation in Proposition 2.1 uses a Ramanujan sum. We prove its
-prime-power formula by subtracting the powers with exponent divisible by
-the prime from the full geometric sum.
+The Gram calculation in the prime-power basis geometry proposition uses a Ramanujan sum. We prove
+its prime-power formula by subtracting the powers with exponent divisible by the prime from the full
+geometric sum.
 -/
 
 noncomputable section
@@ -382,8 +383,8 @@ section PrimePowerGram
 /-!
 ## The canonical Gram matrix for prime-power power bases
 
-The entries are computed from the actual embeddings. Reindexing exponents
-by their residue modulo `p^k` exhibits the blocks in Proposition 2.1.
+The entries are computed from the actual embeddings. Reindexing exponents by their residue modulo
+`p^k` exhibits the blocks in the prime-power basis geometry proposition.
 -/
 
 noncomputable section
@@ -483,8 +484,8 @@ def primePowerGramBlock (p k : ℕ) : Matrix (Fin (p - 1)) (Fin (p - 1)) ℝ :=
   ((p ^ (k + 1) : ℕ) : ℝ) • (1 : Matrix (Fin (p - 1)) (Fin (p - 1)) ℝ) -
     ((p ^ k : ℕ) : ℝ) • Matrix.of (fun _ _ => 1)
 
-/-- The simultaneous row and column permutation in Proposition 2.1 is the
-explicit equivalence `primePowerIndex`, grouping exponents by residue. -/
+/-- The simultaneous row and column permutation in the prime-power basis geometry proposition is the
+explicit equivalence `primePowerIndex` , grouping exponents by residue. -/
 theorem primePowerGram_blocks (hζ : IsPrimitiveRoot ζ (p ^ (k + 1))) :
     canonicalGram K ((cyclotomicIntegralBasis K hζ).reindex (primePowerIndex p k).symm) =
       (1 : Matrix (Fin (p ^ k)) (Fin (p ^ k)) ℝ) ⊗ₖ primePowerGramBlock p k := by
@@ -1080,7 +1081,8 @@ theorem ringCoefficientMatrix_column (b : Basis (Fin d) ℤ O)
   exact mul_comm _ _
 
 /-- The block matrix in the probabilistic theorem is the actual coefficient
-matrix of the ring-linear map, once its columns are expressed in the basis. -/
+matrix of the ring-linear map, once its columns are expressed in the basis.
+-/
 theorem ringCoefficientMatrix_eq_block (b : Basis (Fin d) ℤ O)
     (X : Matrix (Fin r) (Fin m) O) :
     ringCoefficientMatrix b X = blockCoefficientMatrix
@@ -1236,10 +1238,10 @@ section CanonicalMultiplication
 /-!
 ## Multiplication and the canonical norm
 
-Multiplication acts diagonally on the actual complex embeddings. If all
-conjugates of an integer have modulus one, this action is isometric and
-its coefficient multiplication matrix has norm at most the basis condition
-number. This supplies the multiplication bound in Proposition 2.1.
+Multiplication acts diagonally on the actual complex embeddings. If all conjugates of an integer
+have modulus one, this action is isometric and its coefficient multiplication matrix has norm at
+most the basis condition number. This supplies the multiplication bound in the prime-power basis
+geometry proposition.
 -/
 
 noncomputable section

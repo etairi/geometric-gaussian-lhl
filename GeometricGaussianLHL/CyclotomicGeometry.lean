@@ -15,7 +15,7 @@ This module collects the following proof sections, in dependency order.
 - Singular-value bounds for the prime-power basis map (`PrimePowerNorms`).
 - Exact geometry of the power-of-two integral basis (`PowerTwoGeometry`).
 - The exact root discriminant of a power-of-two cyclotomic field (`PowerTwoDiscriminant`).
-- Proposition 2.1: exact prime-power basis constants (`PrimePowerGeometry`).
+- Exact prime-power basis constants (`PrimePowerGeometry`).
 -/
 
 section BlockGram
@@ -217,7 +217,8 @@ theorem powerTwo_basis_multiply (hζ : IsPrimitiveRoot ζ (2 ^ (k + 1)))
       simp only [zsmul_eq_mul, Int.cast_pow, Int.cast_neg, Int.cast_one]
       ring
 
-/-- The signed-permutation assertion following Proposition 2.1. -/
+/-- The signed-permutation assertion following the prime-power basis geometry proposition.
+-/
 theorem powerTwo_multiplication_signedPermutation (hζ : IsPrimitiveRoot ζ (2 ^ (k + 1)))
     (a : ℕ) :
     IsSignedPermutation (Algebra.leftMulMatrix (cyclotomicIntegralBasis K hζ) (hζ.toInteger ^ a)) := by
@@ -495,7 +496,7 @@ end PowerTwoDiscriminant
 section PrimePowerGeometry
 
 /-!
-## Proposition 2.1: exact prime-power basis constants
+## Exact prime-power basis constants
 
 The Gram computation, characteristic polynomial, and attaining vectors are
 combined for the actual integral power basis. All prime conductors and the
@@ -544,7 +545,9 @@ theorem primePowerBasis_kappa (hζ : IsPrimitiveRoot ζ (p ^ (k + 1))) :
   rw [basisKappa, primePowerBasis_alpha, primePowerBasis_beta, Real.sqrt_mul hk]
   field_simp
 
-/-- The four displayed constants of Proposition 2.1, in the paper's degree notation. -/
+/-- The four displayed constants of the prime-power basis geometry proposition, in the paper's
+degree notation.
+-/
 theorem primePowerBasis_constants (hζ : IsPrimitiveRoot ζ (p ^ (k + 1))) :
     basisAlpha K (cyclotomicIntegralBasis K hζ) =
       Real.sqrt (primePowerKappa p * (p ^ (k + 1)).totient / (p - 1 : ℕ)) ∧

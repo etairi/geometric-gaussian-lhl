@@ -7,11 +7,11 @@ import «SIS-to-kSIS».GaussianFactorization
 /-!
 # Spectral events for geometric hints
 
-The input event retains all complex embedding bounds. The shaped preimage
-Gaussian then has the operator norm required for the improved extraction loss.
-The stored finite sampler satisfies its column-accuracy premise using the
-existing canonical shaping constructor and the Section 5.2 width window. The
-full stored hint program has exactly the joint law used by the reduction.
+The input event retains all complex embedding bounds. The shaped preimage Gaussian then has the
+operator norm required for the improved extraction loss. The stored finite sampler satisfies its
+column-accuracy premise using the existing canonical shaping constructor and the spectral
+hint-generator width window. The full stored hint program has exactly the joint law used by the
+reduction.
 -/
 
 noncomputable section

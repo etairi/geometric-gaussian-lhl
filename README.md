@@ -1,10 +1,11 @@
 # Lean Certificates for the Geometric Gaussian LHL
 
 This repository contains Lean 4 certificates for the manuscript
-*Gaussian Kernel Lattices over Number Fields: Smoothing Bounds from Theta
-Integrals*. `GeometricGaussianLHL` covers Sections 2–4 and 5.1.
-`SISToKSIS` formalizes the reduction in Section 7 of ePrint 2025/1852 with the
-improved finite parameters from Section 5.2, reusing the geometric Gaussian LHL.
+*Gaussian Kernel Lattices and Smoothing Bounds from Theta Integrals*.
+`GeometricGaussianLHL` formalizes the kernel-lattice geometry, smoothing bounds,
+and Gaussian leftover-hash lemmas, together with finite-input shaping certificates.
+`SISToKSIS` formalizes the SIS-to-kSIS reduction from ePrint 2025/1852 with the
+manuscript's improved finite parameters, reusing the geometric Gaussian LHL.
 Both libraries share this Lake project.
 
 ## Requirements
@@ -125,8 +126,8 @@ The principal reduction declarations, in namespace `SISToKSIS`, are:
 The final reduction theorems bound the success probability of the implemented
 finite program, including Gaussian sampling, hint construction, the oracle call,
 and extraction. They cover both geometric parameter regimes. The scope excludes
-figures, the technical material in Section 6, k-LWE, asymptotic prime search, and
-a separate reduction theorem for asymptotic security families.
+figures, comparisons with prior work, k-LWE, asymptotic prime search, and a
+separate reduction theorem for asymptotic security families.
 
 The computational certificates use explicit algorithms with declared arithmetic
 costs and proved polynomial operand and output sizes, following the

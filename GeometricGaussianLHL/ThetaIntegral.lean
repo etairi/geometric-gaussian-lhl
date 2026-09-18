@@ -65,7 +65,8 @@ theorem rowImage_le_saturation {R M : ℕ} (A : Matrix (Fin R) (Fin M) ℤ) :
   rintro k ⟨z, rfl⟩
   exact ⟨integerEmbedding R z, realCoefficientMap_integerEmbedding A.transpose z⟩
 
-/-- Saturation expressed directly by divisibility of integer vectors. -/
+/-- Saturation expressed directly by divisibility of integer vectors.
+-/
 theorem rowSaturation_saturated {R M : ℕ} (A : Matrix (Fin R) (Fin M) ℤ)
     {a : ℤ} (ha : a ≠ 0) {k : Coeff M} (hk : a • k ∈ rowSaturation A) :
     k ∈ rowSaturation A := by
@@ -119,7 +120,8 @@ theorem row_coset_displacement {R M : ℕ} (A : Matrix (Fin R) (Fin M) ℤ)
   abel
 
 /-- The complete analytic contribution of a row-lattice coset, before
-counting how many cosets give the same projected dual vector. -/
+counting how many cosets give the same projected dual vector.
+-/
 theorem lintegral_row_coset {R M : ℕ} (A : Matrix (Fin R) (Fin M) ℤ)
     (hA : Function.Surjective (realCoefficientMap A)) (k : Coeff M)
     {t : ℝ} (ht : 0 < t) :
@@ -206,7 +208,8 @@ theorem coefficientMap_transpose_injective {R M : ℕ} (A : Matrix (Fin R) (Fin 
   apply realCoefficientMap_transpose_injective A hA
   rw [realCoefficientMap_integerEmbedding, realCoefficientMap_integerEmbedding, h]
 
-/-- The integer sum is partitioned into actual cosets of `Aᵀ ℤ^R`. -/
+/-- The integer sum is partitioned into actual cosets of `Aᵀ ℤ^R`.
+-/
 theorem ennreal_tsum_row_cosets {R M : ℕ} (A : Matrix (Fin R) (Fin M) ℤ)
     (hA : Function.Surjective (realCoefficientMap A)) (f : Coeff M → ENNReal) :
     (∑' k : Coeff M, f k) = ∑' q : Coeff M ⧸ coefficientImage A.transpose,
@@ -218,9 +221,9 @@ theorem ennreal_tsum_row_cosets {R M : ℕ} (A : Matrix (Fin R) (Fin M) ℤ)
     LinearEquiv.ofInjective (coefficientMap A.transpose) (coefficientMap_transpose_injective A hA)
   exact (e.toEquiv.tsum_eq (fun z => f (q.out + z))).symm
 
-/-- The theta integral equals the sum of the proved coset contributions.
-The remaining step of Proposition 4.1 is their finite multiplicity over
-each projected intrinsic dual vector. -/
+/-- The theta integral equals the sum of the proved coset contributions. The remaining step of the
+exact theta-integral proposition is their finite multiplicity over each projected intrinsic dual
+vector. -/
 theorem theta_integral_eq_coset_sum {R M : ℕ} (A : Matrix (Fin R) (Fin M) ℤ)
     (hA : Function.Surjective (realCoefficientMap A)) {t : ℝ} (ht : 0 < t) :
     ENNReal.ofReal (∫ y in centeredUnitCube R, thetaIntegrand A t y) =
@@ -264,7 +267,8 @@ namespace GeometricGaussianLHL
 def rowMultiplicity {R M : ℕ} (A : Matrix (Fin R) (Fin M) ℤ) : ℕ :=
   (coefficientImage A.transpose).relIndex (rowSaturation A).toAddSubgroup
 
-/-- The row lattice of an integer split surjection is already saturated. -/
+/-- The row lattice of an integer split surjection is already saturated.
+-/
 theorem rowSaturation_eq_rowImage_of_right_inverse {R M : ℕ}
     (B : Matrix (Fin R) (Fin M) ℤ) (D : Matrix (Fin M) (Fin R) ℤ) (hBD : B * D = 1) :
     rowSaturation B = (coefficientMap B.transpose).range := by
@@ -315,7 +319,7 @@ theorem rowMultiplicity_factor {R M : ℕ} (C : Matrix (Fin R) (Fin R) ℤ)
     AddSubgroup.relIndex_map_map_of_injective _ _ hb, AddSubgroup.relIndex_top_right]
   rfl
 
-/-- The exact multiplicity asserted in Proposition 4.1. -/
+/-- The exact multiplicity asserted in the exact theta-integral proposition. -/
 theorem rowMultiplicity_eq_imageIndex {R M : ℕ} (A : Matrix (Fin R) (Fin M) ℤ)
     (hA : Function.Surjective (realCoefficientMap A)) : rowMultiplicity A = imageIndex A := by
   obtain ⟨C, B, rfl, hB, hC⟩ := exists_integer_image_factorization A hA
@@ -357,7 +361,8 @@ theorem quotientProduct_first (H S : AddSubgroup G) (hHS : H ≤ S) (q : G ⧸ H
       congrArg (fun a => (e a).1) (Quotient.out_eq' q).symm
     _ = _ := rfl
 
-/-- Every fiber contributes its actual finite cardinality. -/
+/-- Every fiber contributes its actual finite cardinality.
+-/
 theorem ennreal_tsum_quotient_multiplicity (H S : AddSubgroup G) (hHS : H ≤ S)
     [Finite (S ⧸ H.addSubgroupOf S)] (f : G ⧸ S → ENNReal) :
     (∑' q : G ⧸ H, f ((QuotientAddGroup.mk' S) q.out)) =
@@ -412,10 +417,9 @@ section ThetaIntegral
 /-!
 ## The exact theta integral
 
-Proposition 4.1 for every full-row-rank integer matrix and every positive
-parameter. The integrand, infinite dual mass, and finite image index are the
-actual objects defined in the certificate, with all convergence and
-multiplicity arguments proved in the preceding modules.
+The exact theta-integral proposition for every full-row-rank integer matrix and every positive
+parameter. The integrand, infinite dual mass, and finite image index are the actual objects defined
+in the certificate, with all convergence and multiplicity arguments proved in the preceding modules.
 -/
 
 noncomputable section
@@ -440,8 +444,9 @@ theorem theta_integral_divided {R M : ℕ} (A : Matrix (Fin R) (Fin M) ℤ)
   rw [ENNReal.tsum_mul_right]
   rfl
 
-/-- Proposition 4.1: the index-weighted intrinsic dual Gaussian mass is
-exactly the normalized torus integral. -/
+/-- The exact theta-integral proposition: the index-weighted intrinsic dual Gaussian mass is exactly
+the normalized torus integral.
+-/
 theorem theta_integral_identity {R M : ℕ} (A : Matrix (Fin R) (Fin M) ℤ)
     (hA : Function.Surjective (realCoefficientMap A)) {t : ℝ} (ht : 0 < t) :
     (imageIndex A : ENNReal) * dualMass (euclideanKernel A) t =
@@ -456,8 +461,8 @@ theorem theta_integral_identity {R M : ℕ} (A : Matrix (Fin R) (Fin M) ℤ)
         (ENNReal.ofReal (t ^ R * gramDet A) * (ENNReal.ofReal (t ^ R * gramDet A))⁻¹) := by ac_rfl
     _ = _ := by rw [ENNReal.mul_inv_cancel hD0 ENNReal.ofReal_ne_top, mul_one]
 
-/-- A bound below two on the actual theta integral simultaneously certifies
-integer surjectivity and smoothing, as stated after Proposition 4.1. -/
+/-- A bound below two on the actual theta integral simultaneously certifies integer surjectivity and
+smoothing, as stated after the exact theta-integral proposition. -/
 theorem surjective_and_smoothAt_of_theta_bound {R M : ℕ}
     (A : Matrix (Fin R) (Fin M) ℤ) (hA : Function.Surjective (realCoefficientMap A))
     {t ε : ℝ} (ht : 0 < t) (hε0 : 0 ≤ ε) (hε1 : ε < 1)
@@ -480,9 +485,9 @@ section NearFarIntegral
 /-!
 ## From a remainder bound to surjectivity and smoothing
 
-The actual torus integral splits into the small ball and its complement.
-Together with the exact theta identity and Lemma 4.2, this gives the
-deterministic deduction used by both finite random-matrix theorems.
+The actual torus integral splits into the small ball and its complement. Together with the exact
+theta identity and the Gaussian main-term lemma, this gives the deterministic deduction used by both
+finite random-matrix theorems.
 -/
 
 noncomputable section

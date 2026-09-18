@@ -50,7 +50,7 @@ This module collects the following proof sections, in dependency order.
 - Gaussian norm tails as probability-measure bounds (`GaussianNormTail`).
 - Gaussian linear moments of independent vector columns (`IndependentLinearMoment`).
 - The column-norm exceptional event (`ColumnTails`).
-- Lemma 4.3: elementary ellipsoidal Gaussian estimates (`ElementaryGaussian`).
+- Elementary ellipsoidal Gaussian estimates (`ElementaryGaussian`).
 - Standardized Gaussian moments and tails (`GaussianStandardized`).
 - Lower tails for the number of independent escapes (`IndependentEscapeCount`).
 - Chernoff tails of actual product Gaussian linear forms (`ProductGaussianTail`).
@@ -536,7 +536,8 @@ theorem tsum_integer_unimodal_difference (f : ℤ → ℝ) (hf : Summable f)
   simp only [hpos, hneg, hsum]
   ring
 
-/-- The exact unit-translation distance for any symmetric unimodal PMF. -/
+/-- The exact unit-translation distance for any symmetric unimodal PMF.
+-/
 theorem pmf_unimodal_unit_translation (p : PMF ℤ)
     (hsym : ∀ z, p (-z) = p z)
     (hmono : ∀ n : ℕ, (p ((n : ℤ) + 1)).toReal ≤ (p n).toReal) :
@@ -1040,9 +1041,9 @@ section IntegerGaussianMGF
 /-!
 ## Scalar Gaussian exponential moments
 
-Completing the square and the proved maximum-at-zero theta bound give
-the moment-generating-function assertion of Lemma 4.10 for every positive
-width. The actual normalized scalar distribution is used throughout.
+Completing the square and the proved maximum-at-zero theta bound give the moment-generating-function
+assertion of the uniform-moments lemma for every positive width. The actual normalized scalar
+distribution is used throughout.
 -/
 
 noncomputable section
@@ -1366,8 +1367,8 @@ section IntegerGaussianVariance
 /-!
 ## The uniform discrete Gaussian variance lower bound
 
-The normalized second moment is evaluated by the differentiated Poisson
-identity, and the proved dual-theta tail gives Lemma 4.10's constant `1/16`.
+The normalized second moment is evaluated by the differentiated Poisson identity, and the proved
+dual-theta tail gives the uniform-moments lemma's constant `1/16` .
 -/
 
 noncomputable section
@@ -1414,8 +1415,8 @@ section IntegerGaussianNonuniform
 /-!
 ## The numerical nonuniformity bound at coefficient width one
 
-The strict constant `0.459` in Remark 4.13 follows from a rational bound
-on the scalar theta series. The modulus is explicitly at least two.
+The strict constant `0.459` in the constant-width asymptotic parameter discussion follows from a
+rational bound on the scalar theta series. The modulus is explicitly at least two.
 -/
 noncomputable section
 namespace GeometricGaussianLHL
@@ -1498,9 +1499,9 @@ section IntegerGaussianThirdMoment
 /-!
 ## Uniform scalar discrete Gaussian moments
 
-The third absolute moment is bounded by the integral and maximum of the
-cubic Gaussian. Together with the proved variance and MGF estimates this
-completes Lemma 4.10 for the actual normalized integer Gaussian.
+The third absolute moment is bounded by the integral and maximum of the cubic Gaussian. Together
+with the proved variance and MGF estimates this completes the uniform-moments lemma for the actual
+normalized integer Gaussian.
 -/
 
 noncomputable section
@@ -1666,7 +1667,8 @@ theorem productGaussianMoment_fourth_succ {n : ℕ} (y : Fin (n + 1) → ℝ)
   ring
 
 /-- The exact fourth moment, including the fourth cumulant of each scalar
-coordinate. The statement also covers the zero-dimensional product. -/
+coordinate. The statement also covers the zero-dimensional product.
+-/
 theorem productGaussianMoment_fourth {n : ℕ} (y : Fin n → ℝ) (s : ℝ) (hs : 0 < s) :
     productGaussianMoment y s hs 4 =
       3 * (integerGaussianSecondMoment s hs * ∑ i, y i ^ 2) ^ 2 +
@@ -1820,9 +1822,9 @@ section Displacement
 /-!
 ## A short integer displacement
 
-Lemma 4.4's vector is constructed by signed coordinate rounding. A large
-coordinate supplies a unit vector; otherwise a subset of unit increments
-crosses the required inner-product threshold with controlled overshoot.
+The integer-displacement lemma's vector is constructed by signed coordinate rounding. A large
+coordinate supplies a unit vector; otherwise a subset of unit increments crosses the required
+inner-product threshold with controlled overshoot.
 -/
 
 noncomputable section
@@ -1924,7 +1926,7 @@ theorem exists_signed_integer_basis {R : ℕ} (y : Euclidean R) (i : Fin R) :
     · simpa only [map_neg, norm_neg] using hnorm
   · exact ⟨v, hinner.trans (abs_of_nonneg (le_of_not_gt hi)).symm, hnorm⟩
 
-/-- The displacement vector and both bounds from Lemma 4.4. -/
+/-- The displacement vector and both bounds from the integer-displacement lemma. -/
 theorem exists_integer_displacement {R : ℕ} {τ : ℝ} (hτ : 0 < τ) (hτsmall : τ ≤ 1 / 8)
     (y : Euclidean R) (hy : y ≠ 0) (hcube : y ∈ centeredUnitCube R) :
     ∃ v : Coeff R, 2 * τ ≤ inner ℝ y (integerEmbedding R v) ∧
@@ -2029,9 +2031,9 @@ section IntegerSlabs
 /-!
 ## Disjoint translates of integer slabs
 
-The slab is defined using the actual distance from a real scalar to the
-embedded integers. The displacement in Lemma 4.4 separates a slab from its
-translate, including the non-strict endpoint bounds on the displacement.
+The slab is defined using the actual distance from a real scalar to the embedded integers. The
+displacement in the integer-displacement lemma separates a slab from its translate, including the
+non-strict endpoint bounds on the displacement.
 -/
 
 noncomputable section
@@ -2077,7 +2079,8 @@ theorem integerSlab_disjoint_translate {R : ℕ} (y : Euclidean R) (τ : ℝ) (v
     exact abs_sub _ _
   linarith
 
-/-- Lemma 4.4, including the disjointness assertion for the actual integer slab. -/
+/-- The integer-displacement lemma, including the disjointness assertion for the actual integer
+slab. -/
 theorem integer_displacement_and_disjoint_slabs {R : ℕ} {τ : ℝ}
     (hτ : 0 < τ) (hτsmall : τ ≤ 1 / 8) (y : Euclidean R) (hy : y ≠ 0)
     (hcube : y ∈ centeredUnitCube R) :
@@ -2098,9 +2101,9 @@ section PeriodicGaussianTail
 /-!
 ## Periodic Gaussian bounds away from the integers
 
-Uniform geometric bounds on the two integer tails prove the origin and
-off-integer estimates used in Lemma 4.5. Integer translation reduces an
-arbitrary real argument to the centered unit interval.
+Uniform geometric bounds on the two integer tails prove the origin and off-integer estimates used in
+the one-column expectation lemma. Integer translation reduces an arbitrary real argument to the
+centered unit interval.
 -/
 
 noncomputable section
@@ -2220,7 +2223,7 @@ theorem gaussian_centered_tail_small {t : ℝ} (ht : 8 ≤ t) :
   rw [show -Real.pi * t ^ 2 / 4 = -(Real.pi * t ^ 2 / 4) by ring, Real.exp_neg]
   simpa only [one_div] using one_div_le_one_div_of_le (by norm_num : (0 : ℝ) < 128) hlower
 
-/-- The off-integer estimate in Lemma 4.5, with a strict margin. -/
+/-- The off-integer estimate in the one-column expectation lemma, with a strict margin. -/
 theorem periodicGaussian_off_integer {t u : ℝ} (ht : 8 ≤ t)
     (haway : 1 / t ≤ integerDistance u) : periodicGaussian t u < 1 / 8 := by
   let k : ℤ := round u
@@ -2251,7 +2254,7 @@ theorem gaussian_origin_exponent_small {x : ℝ} (hx : 64 ≤ x) :
   apply (div_le_iff₀ (Real.exp_pos _)).mpr
   linarith
 
-/-- The uniform factor inflation bound used in Lemma 4.5. -/
+/-- The uniform factor inflation bound used in the one-column expectation lemma. -/
 theorem periodicGaussian_origin_pow_bound {t : ℝ} (ht : 8 ≤ t) (d : ℕ)
     (hd : (d : ℝ) ≤ t ^ 2) : periodicGaussian t 0 ^ d < 28 / 25 := by
   have htpos : 0 < t := by linarith
@@ -2283,10 +2286,9 @@ section GaussianShift
 /-!
 ## Integer shifts of ellipsoidal Gaussians
 
-The log density ratio is affine in the sampled integer vector. Absolute
-integrability and zero mean give relative entropy exactly `π ‖S⁻¹ v‖²`
-in both directions. The symmetric entropy inequality then proves the
-total-variation estimate in the first part of Lemma 4.3.
+The log density ratio is affine in the sampled integer vector. Absolute integrability and zero mean
+give relative entropy exactly `π ‖S⁻¹ v‖²` in both directions. The symmetric entropy inequality then
+proves the total-variation estimate in the first part of the elementary Gaussian estimates lemma.
 -/
 
 noncomputable section
@@ -2447,7 +2449,8 @@ theorem ellipsoidalGaussian_map_add (S : Euclidean R ≃L[ℝ] Euclidean R)
   change ellipsoidalGaussian S 0 x = ellipsoidalGaussian S (integerEmbedding R v) (x + v)
   simpa only [zero_add] using (ellipsoidalGaussian_add_center S 0 x v).symm
 
-/-- Lemma 4.3, first estimate: the TV distance between `x` and `x + v`. -/
+/-- The elementary Gaussian estimates lemma, first estimate: the TV distance between `x` and `x + v`
+. -/
 theorem ellipsoidalGaussian_translate_variation (S : Euclidean R ≃L[ℝ] Euclidean R)
     (v : Coeff R) :
     discreteTotalVariation (ellipsoidalGaussian S 0)
@@ -2466,10 +2469,10 @@ section GaussianSubspace
 /-!
 ## Gaussian subspace anti-concentration
 
-A proper real subspace has a transverse signed coordinate vector. Its mass
-is at most the difference on a half-space between a distribution and its
-translate by that vector. The Gaussian translation bound proves the fourth
-estimate in Lemma 4.3, even without the paper's lower-width restriction.
+A proper real subspace has a transverse signed coordinate vector. Its mass is at most the difference
+on a half-space between a distribution and its translate by that vector. The Gaussian translation
+bound proves the fourth estimate in the elementary Gaussian estimates lemma, even without the
+paper's lower-width restriction.
 -/
 
 noncomputable section
@@ -2564,7 +2567,8 @@ theorem ellipsoidalGaussian_subspace_operator_bound
       ellipsoidalGaussian_translate_variation S v
     _ ≤ _ := mul_le_mul_of_nonneg_left hn (Real.sqrt_nonneg _)
 
-/-- Lemma 4.3, fourth estimate. The proof only needs a positive lower width. -/
+/-- The elementary Gaussian estimates lemma, fourth estimate. The proof only needs a positive lower
+width. -/
 theorem ellipsoidalGaussian_subspace_bound
     (S : Euclidean R ≃L[ℝ] Euclidean R) {s₀ : ℝ} (hs₀ : 0 < s₀)
     (hS : ‖S.symm.toContinuousLinearMap‖ ≤ 1 / s₀)
@@ -2593,8 +2597,8 @@ section SlabProbability
 /-!
 ## Gaussian escape from integer slabs
 
-The disjoint translate constructed in Lemma 4.4 and the actual Gaussian
-translation estimate imply the quarter-probability saving used in Lemma 4.5.
+The disjoint translate constructed in the integer-displacement lemma and the actual Gaussian
+translation estimate imply the quarter-probability saving used in the one-column expectation lemma.
 -/
 
 noncomputable section
@@ -2649,7 +2653,8 @@ theorem ellipsoidalGaussian_escape_slab_of_displacement {R : ℕ}
     (fun x => x + v) (add_left_injective v) (integerSlab_disjoint_translate y τ v hlo hhi)
   linarith
 
-/-- The quarter-probability saving, with the geometric width budget explicit. -/
+/-- The quarter-probability saving, with the geometric width budget explicit.
+-/
 theorem ellipsoidalGaussian_escape_slab {R : ℕ}
     (S : Euclidean R ≃L[ℝ] Euclidean R) {s₀ τ : ℝ} (hs₀ : 0 < s₀)
     (hlower : ‖S.symm.toContinuousLinearMap‖ ≤ 1 / s₀)
@@ -2837,7 +2842,8 @@ theorem ellipsoidalGaussian_exp_moment_opNorm
   apply div_le_div_of_nonneg_right _ (by positivity)
   simpa only [mul_pow] using (sq_le_sq₀ (norm_nonneg _) (mul_nonneg hb.le (norm_nonneg _))).mpr hn
 
-/-- The auxiliary-Gaussian argument for any countable probability mass function. -/
+/-- The auxiliary-Gaussian argument for any countable probability mass function.
+-/
 theorem norm_exp_moment_of_linear_mgf {α : Type*} [Countable α]
     (p : PMF α) (X : α → Euclidean R) {b : ℝ} (hb : 0 < b)
     (hmgf : ∀ h : Euclidean R, (∑' z, p z * ENNReal.ofReal (Real.exp (inner ℝ h (X z)))) ≤
@@ -2985,9 +2991,10 @@ theorem logarithmicColumnHeight_ge_rank {R m : ℕ} (hm : 1 ≤ m) {δ : ℝ}
   have hr : 1 ≤ 2 * m / δ := (le_div_iff₀ hδ).mpr (by linarith)
   linarith [Real.log_nonneg hr]
 
-/-- Lemma 4.5's analytic bound for arbitrary column factors with one identity
-witness. The width and far-region hypotheses are the paper's parameters;
-only the lower singular-width bound is needed for this conclusion. -/
+/-- The one-column expectation lemma's analytic bound for arbitrary column factors with one identity
+witness. The width and far-region hypotheses are the paper's parameters; only the lower
+singular-width bound is needed for this conclusion.
+-/
 theorem polynomialWidth_one_column {R d : ℕ} (hR : 1 ≤ R) (hdR : d ≤ R)
     (S : Euclidean R ≃L[ℝ] Euclidean R) {s₀ κ μ H : ℝ}
     (hκ : 1 ≤ κ) (hμ : 1 ≤ μ) (hH : (R : ℝ) ≤ H) (hs₀ : 8 * Real.sqrt R ≤ s₀)
@@ -3013,9 +3020,9 @@ theorem polynomialColumnHeight_ge_rank {R m : ℕ} {ell : ℝ} (hm : 1 ≤ m) (h
     exact (real_polynomial_failureBudget_le hell).trans (by norm_num)
   exact logarithmicColumnHeight_ge_rank hm (realSecurityError_pos _) hδ
 
-/-- The one-column estimate with the logarithmic height and the actual
-linear coordinate factors. Taking `T k = Iᵣ ⊗ Tₖ` gives the coefficient
-form of Lemma 4.5; the distinguished multiplication matrix is the identity. -/
+/-- The one-column estimate with the logarithmic height and the actual linear coordinate factors.
+Taking `T k = Iᵣ ⊗ Tₖ` gives the coefficient form of the one-column expectation lemma; the
+distinguished multiplication matrix is the identity. -/
 theorem polynomialWidth_one_operator_column {R d m : ℕ} {ell : ℝ}
     (hR : 1 ≤ R) (hm : 1 ≤ m) (hell : 1 ≤ ell) (hdR : d ≤ R)
     (S : Euclidean R ≃L[ℝ] Euclidean R) {s₀ κ μ : ℝ}
@@ -3136,9 +3143,9 @@ section GaussianNormTail
 /-!
 ## Gaussian norm tails as probability-measure bounds
 
-The exponential Markov inequality is proved for actual PMF measures and
-then applied to the squared-norm moment. This gives Lemma 4.3's third
-estimate with its exact dimension-dependent prefactor.
+The exponential Markov inequality is proved for actual PMF measures and then applied to the
+squared-norm moment. This gives the elementary Gaussian estimates lemma's third estimate with its
+exact dimension-dependent prefactor.
 -/
 
 noncomputable section
@@ -3178,7 +3185,8 @@ theorem sqrt_two_pow_eq_rpow (R : ℕ) :
   congr 1
   ring
 
-/-- Lemma 4.3, third estimate, with any positive upper bound on the shape norm. -/
+/-- The elementary Gaussian estimates lemma, third estimate, with any positive upper bound on the
+shape norm. -/
 theorem ellipsoidalGaussian_norm_tail {R : ℕ}
     (S : Euclidean R ≃L[ℝ] Euclidean R) {b u : ℝ} (hb : 0 < b) (hu : 0 < u)
     (hS : ‖S.toContinuousLinearMap‖ ≤ b) :
@@ -3270,9 +3278,9 @@ section ColumnTails
 /-!
 ## The column-norm exceptional event
 
-The actual independent ellipsoidal Gaussian law and the Gaussian norm tail
-give the first exceptional-event bound in Theorem 4.6. The logarithmic
-height leaves a factor of two of slack in the requested failure budget.
+The actual independent ellipsoidal Gaussian law and the Gaussian norm tail give the first
+exceptional-event bound in the finite geometric smoothing theorem. The logarithmic height leaves a
+factor of two of slack in the requested failure budget.
 -/
 
 noncomputable section
@@ -3341,7 +3349,8 @@ theorem ellipsoidalColumnLaw_norm_tail {R m : ℕ}
         ellipsoidalGaussian_norm_tail S hs₁ (Real.sqrt_pos.mpr hH) hS
     _ = _ := by simp [ENNReal.ofReal_mul, ENNReal.ofReal_natCast]
 
-/-- The first exceptional-event bound in Theorem 4.6, with a stronger `δ/2` budget. -/
+/-- The first exceptional-event bound in the finite geometric smoothing theorem, with a stronger
+`δ/2` budget. -/
 theorem polynomialWidth_columnNorm_failure {R m : ℕ} {ell : ℝ} (hR : 1 ≤ R) (hm : 1 ≤ m) (hell : 1 ≤ ell)
     (S : Euclidean R ≃L[ℝ] Euclidean R) {s₁ : ℝ} (hs₁ : 0 < s₁)
     (hS : ‖S.toContinuousLinearMap‖ ≤ s₁) :
@@ -3363,7 +3372,7 @@ end ColumnTails
 section ElementaryGaussian
 
 /-!
-## Lemma 4.3: elementary ellipsoidal Gaussian estimates
+## Elementary ellipsoidal Gaussian estimates
 
 The widths are expressed as operator-norm bounds. Taking `s₁` to be the
 largest singular value and `s₀` the smallest gives the paper's parameters.
@@ -3377,7 +3386,9 @@ noncomputable section
 
 namespace GeometricGaussianLHL
 
-/-- All four conclusions of Lemma 4.3, for arbitrary valid width bounds. -/
+/-- All four conclusions of the elementary Gaussian estimates lemma, for arbitrary valid width
+bounds.
+-/
 theorem elementary_ellipsoidal_gaussian_estimates {R : ℕ}
     (S : Euclidean R ≃L[ℝ] Euclidean R) (hself : IsSelfAdjoint S.toContinuousLinearMap)
     {s₀ s₁ : ℝ} (hs₀ : 0 < s₀) (hs₁ : 0 < s₁)
@@ -3643,7 +3654,8 @@ theorem productGaussian_mgf_ennreal_le {n : ℕ} (y : Fin n → ℝ) (s : ℝ) (
   ring
 
 /-- A scalar Chernoff inequality stated with the paper's Gaussian parameter
-convention. The hypothesis is an actual extended-real exponential moment. -/
+convention. The hypothesis is an actual extended-real exponential moment.
+-/
 theorem pmf_gaussian_right_tail {α : Type*} [MeasurableSpace α]
     [MeasurableSingletonClass α] (p : PMF α) (f : α → ℝ) {B a : ℝ}
     (hB : 0 < B) (ha : 0 < a)

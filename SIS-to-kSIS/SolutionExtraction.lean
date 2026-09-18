@@ -18,12 +18,14 @@ section Equations
 variable {R Q K : Type*} [CommRing R] [CommRing Q] [Field K]
   {m k n : ℕ}
 
-/-- The SIS solution predicate with the strict bound used in Definition 2.19. -/
+/-- The SIS solution predicate with the strict bound used in the SIS definition in ePrint 2025/1852.
+-/
 def IsSISSolution (modQ : R →+* Q) (norm : (Fin m → R) → ℝ)
     (β : ℝ) (A : Matrix (Fin n) (Fin m) Q) (v : Fin m → R) : Prop :=
   v ≠ 0 ∧ A *ᵥ (modQ ∘ v) = 0 ∧ norm v < β
 
-/-- A k-SIS solution is outside the field-linear span of the supplied hint columns. -/
+/-- A k-SIS solution is outside the field-linear span of the supplied hint columns.
+-/
 def IsKSISSolution (modQ : R →+* Q) (embed : R →+* K)
     (norm : (Fin m ⊕ Fin k → R) → ℝ) (β : ℝ)
     (B : Matrix (Fin n) (Fin m ⊕ Fin k) Q)

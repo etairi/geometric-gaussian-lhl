@@ -20,7 +20,7 @@ This module collects the following proof sections, in dependency order.
 - The finite polynomial-width matrix certificate (`PolynomialMatrix`).
 - Polynomial-width certificate under a change of metric (`PolynomialCertificate`).
 - The finite polynomial-width theorem over number fields (`NumberFieldPolynomial`).
-- The dual coefficient minimum in Remark 4.16 (`DualMinimumPinned`).
+- The pinned dual coefficient minimum (`DualMinimumPinned`).
 - Polynomial width and growing rank over a fixed number field (`NumberFieldAsymptotic`).
 - The finite power-of-two smoothing corollary (`PowerTwoPolynomial`).
 - Two-sided smoothing in the polynomial-width family (`PolynomialPinned`).
@@ -296,7 +296,8 @@ theorem logarithmic_height_near_budget {R M m : ℕ} (hR : 1 ≤ R) (hm : 1 ≤ 
   rw [hheight]
   linarith
 
-/-- The near-origin exponential correction is at most half the failure budget. -/
+/-- The near-origin exponential correction is at most half the failure budget.
+-/
 theorem polynomialWidth_mainTerm_small {R M m : ℕ} {ell : ℝ} (hR : 1 ≤ R) (hm : 1 ≤ m) (hell : 1 ≤ ell)
     (hM : 0 < M) (hMR : M ≤ R * m) {κ μ : ℝ} (hκ : 1 ≤ κ) (hμ : 1 ≤ μ) :
     3 * (M : ℝ) * Real.exp (-Real.pi * polynomialThetaWidth κ μ (polynomialColumnHeight R m ell) ^ 2 / 2) ≤
@@ -419,8 +420,8 @@ section BlockExpectation
 /-!
 ## Expected block-matrix integrands
 
-The factorization of the actual integer block matrix and the independent
-ellipsoidal column law turn Lemma 4.5 into exponential decay across columns.
+The factorization of the actual integer block matrix and the independent ellipsoidal column law turn
+the one-column expectation lemma into exponential decay across columns.
 -/
 
 noncomputable section
@@ -566,7 +567,8 @@ theorem rankPotential_ge_on_proper {R : ℕ} (V : Submodule ℝ (Euclidean R)) (
   have hdim : Module.finrank ℝ V ≤ R := by simpa using Submodule.finrank_le V
   exact pow_le_pow_of_le_one (by norm_num) (by norm_num) hdim
 
-/-- An exponential full-rank estimate for the actual product distribution. -/
+/-- An exponential full-rank estimate for the actual product distribution.
+-/
 theorem independent_columns_rank_failure {R : ℕ} (p : PMF (Coeff R))
     (hanti : ∀ V : Submodule ℝ (Euclidean R), V ≠ ⊤ →
       p.toMeasure.real {x : Coeff R | integerEmbedding R x ∈ V} ≤ 1 / 4) (m : ℕ) :
@@ -656,9 +658,9 @@ section ConstantWidthParameters
 /-!
 ## Parameters and elementary budgets at constant width
 
-The height, scalar width, column threshold and determinant scale are the
-literal parameters used in Theorem 4.9. The error parameter is allowed to
-be any positive real at most `1/32`.
+The height, scalar width, column threshold and determinant scale are the literal parameters used in
+the constant-width smoothing theorem. The error parameter is allowed to be any positive real at most
+`1/32` .
 -/
 
 noncomputable section
@@ -958,10 +960,9 @@ section PinnedNumerics
 /-!
 ## Numerical constants in the pinned smoothing corollary
 
-The column budget and logarithmic-size hypothesis imply `ell ≥ 28`;
-this threshold does not need to be added to Corollary 4.15. The remaining
-estimates prove the literal `2.7`, `225`, and `2250` bounds using rational
-bounds on `log 2` and `π`.
+The column budget and logarithmic-size hypothesis imply `ell ≥ 28` ; this threshold does not need to
+be added to the smoothing-parameter pinning corollary. The remaining estimates prove the literal
+`2.7` , `225` , and `2250` bounds using rational bounds on `log 2` and `π` .
 -/
 
 noncomputable section
@@ -1192,12 +1193,11 @@ section PolynomialMatrix
 /-!
 ## The finite polynomial-width matrix certificate
 
-This is the coefficient-matrix form of Theorem 4.6. It samples the actual
-independent ellipsoidal Gaussian PMF, builds the integer block matrix, and
-proves integer surjectivity, intrinsic-dual smoothing, and column bounds
-outside the stated failure budget. All analytic and probabilistic estimates
-are proved dependencies. The number-field coordinate identification is a
-separate remaining part of the complete paper certificate.
+This is the coefficient-matrix form of the finite geometric smoothing theorem. It samples the actual
+independent ellipsoidal Gaussian PMF, builds the integer block matrix, and proves integer
+surjectivity, intrinsic-dual smoothing, and column bounds outside the stated failure budget. All
+analytic and probabilistic estimates are proved dependencies. The number-field coordinate
+identification is a separate remaining part of the complete paper certificate.
 -/
 
 noncomputable section
@@ -1212,7 +1212,8 @@ def coefficientGoodEvent {R d m : ℕ} (T : Fin d → Matrix (Fin R) (Fin R) ℤ
   {X | Function.Surjective (coefficientMap (blockCoefficientMatrix T X)) ∧
     SmoothAt (euclideanKernel (blockCoefficientMatrix T X)) (2 * δ) t ∧ X ∈ columnNormEvent U}
 
-/-- The coefficient version of Theorem 4.6, with the paper's failure budget. -/
+/-- The coefficient version of the finite geometric smoothing theorem, with the paper's failure
+budget. -/
 theorem polynomial_matrix_failure {R d m : ℕ} {ell : ℝ}
     (hR : 1 ≤ R) (hm : 1 ≤ m) (hell : 1 ≤ ell) (hdR : d ≤ R)
     (S : Euclidean R ≃L[ℝ] Euclidean R) {s₀ κ μ : ℝ}
@@ -1373,8 +1374,9 @@ theorem coefficientGoodEvent_metric_bounds {R d m : ℕ}
         mul_le_mul_of_nonneg_right hC (mul_nonneg ht.le (Real.sqrt_nonneg _))
       _ = _ := (mul_assoc _ _ _).symm
 
-/-- Theorem 4.6 in coefficient coordinates, including the common event,
-metric transport, and simultaneous bounds for every positive error. -/
+/-- The finite geometric smoothing theorem in coefficient coordinates, including the common event,
+metric transport, and simultaneous bounds for every positive error.
+-/
 theorem polynomial_matrix_certificate {R d m : ℕ} {ell : ℝ}
     (hR : 1 ≤ R) (hm : 1 ≤ m) (hell : 1 ≤ ell) (hdR : d ≤ R)
     (S : Euclidean R ≃L[ℝ] Euclidean R) {s₀ κ μ α : ℝ}
@@ -1427,11 +1429,11 @@ section NumberFieldPolynomial
 /-!
 ## The finite polynomial-width theorem over number fields
 
-Theorem 4.6 for the actual ring-Gaussian matrix distribution, integral-basis
-constants, coefficient kernel, and canonical t₂ kernel lattice. All three
-probability estimates are supplied by proved dependencies. PMF outer measure
-expresses event probability on the discrete sample space without imposing
-an auxiliary measurable-space structure on the abstract number field.
+The finite geometric smoothing theorem for the actual ring-Gaussian matrix distribution,
+integral-basis constants, coefficient kernel, and canonical t₂ kernel lattice. All three probability
+estimates are supplied by proved dependencies. PMF outer measure expresses event probability on the
+discrete sample space without imposing an auxiliary measurable-space structure on the abstract
+number field.
 -/
 
 noncomputable section
@@ -1548,7 +1550,7 @@ end NumberFieldPolynomial
 section DualMinimumPinned
 
 /-!
-## The dual coefficient minimum in Remark 4.16
+## The pinned dual coefficient minimum
 
 On the same geometric event, the first dual minimum lies between
 `1 / (224 κ μ)` and `1`. The numerical constant is checked directly, and the
@@ -1649,10 +1651,10 @@ section NumberFieldAsymptotic
 /-!
 ## Polynomial width and growing rank over a fixed number field
 
-Theorem 4.8 for the actual number-field Gaussian matrix law and canonical
-kernel. The explicit constants and threshold are independent of the real
-accuracy parameter. Surjectivity and both smoothing bounds hold on the
-same event supplied by the already-proved finite theorem.
+The fixed-field polynomial-width theorem for the actual number-field Gaussian matrix law and
+canonical kernel. The explicit constants and threshold are independent of the real accuracy
+parameter. Surjectivity and both smoothing bounds hold on the same event supplied by the
+already-proved finite theorem.
 -/
 
 noncomputable section
@@ -1691,7 +1693,7 @@ local instance asymptoticAmbientInner : InnerProductSpace ℝ (CanonicalAmbient 
 local instance asymptoticSpaceInner : InnerProductSpace ℝ (canonicalSpace K) := inferInstance
 local instance asymptoticPowerInner (n : ℕ) : InnerProductSpace ℝ (CanonicalPower K n) := inferInstance
 
-/-- Theorem 4.8, including the larger-error assertion, for every fixed
+/-- The fixed-field polynomial-width theorem, including the larger-error assertion, for every fixed
 integral basis containing `1` as in the paper's global setup. -/
 theorem numberField_polynomial_asymptotic (b : Basis (Fin d) ℤ (𝓞 K))
     (i : Fin d) (hidentity : b i = 1) {p : ℝ} (hp : 1 / 2 ≤ p) :
@@ -1747,9 +1749,9 @@ section PowerTwoPolynomial
 /-!
 ## The finite power-of-two smoothing corollary
 
-Corollary 4.7 follows from the actual number-field theorem after substituting
-the proved power-basis constants. The scale and width conditions are
-simplified to the formulas printed in the paper.
+The power-of-two geometric smoothing corollary follows from the actual number-field theorem after
+substituting the proved power-basis constants. The scale and width conditions are simplified to the
+formulas printed in the paper.
 -/
 
 noncomputable section
@@ -1795,7 +1797,8 @@ theorem numberFieldPolynomialScale_powerTwo (hζ : IsPrimitiveRoot ζ (2 ^ (k + 
     _ = _ := by rw [Real.sq_sqrt hH]
 
 set_option maxHeartbeats 800000 in
-/-- Corollary 4.7 for every real accuracy parameter allowed by the paper. -/
+/-- The power-of-two geometric smoothing corollary for every real accuracy parameter allowed by the
+paper. -/
 theorem powerTwo_polynomial_certificate (hζ : IsPrimitiveRoot ζ (2 ^ (k + 1)))
     {r m : ℕ} (hr : 1 ≤ r) (hmr : r < m) {ell s : ℝ} (hell : 1 ≤ ell) (hs : 0 < s)
     (hwidth : 8 * Real.sqrt ((2 ^ (k + 1)).totient * (r * (2 ^ (k + 1)).totient)) ≤ s)
@@ -1848,10 +1851,10 @@ section PolynomialPinned
 /-!
 ## Two-sided smoothing in the polynomial-width family
 
-The first part of Corollary 4.15: the same Gaussian-matrix event gives
-integer surjectivity, the exact projected-dual lower bound, and fixed
-positive multiples of `sqrt ell` on both sides. The numerical ratios for
-the constant-width theorem remain separate obligations.
+The first part of the smoothing-parameter pinning corollary: the same Gaussian-matrix event gives
+integer surjectivity, the exact projected-dual lower bound, and fixed positive multiples of
+`sqrt ell` on both sides. The numerical ratios for the constant-width theorem remain separate
+obligations.
 -/
 
 noncomputable section
@@ -1902,7 +1905,7 @@ theorem canonicalKernel_security_scale_lower (b : Basis (Fin d) ℤ (𝓞 K))
   rw [div_mul_eq_mul_div]
   exact h.trans (canonicalKernel_security_smoothing_lower K b X hmr ell)
 
-/-- The polynomial-width part of Corollary 4.15, with explicit positive
+/-- The polynomial-width part of the smoothing-parameter pinning corollary, with explicit positive
 lower and upper constants witnessing the asserted square-root order. -/
 theorem numberField_polynomial_pinned (b : Basis (Fin d) ℤ (𝓞 K))
     (i : Fin d) (hidentity : b i = 1) {p : ℝ} (hp : 1 / 2 ≤ p) :

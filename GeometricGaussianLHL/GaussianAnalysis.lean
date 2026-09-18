@@ -162,7 +162,8 @@ theorem summable_gaussianFourierTerm {t : ℝ} (ht : 0 < t) (u : ℝ) :
   exact (norm_gaussianFourierTerm ht u k).le
 
 /-- Poisson expansion of the periodic Gaussian. Using `-u` in the Fourier
-phase is equivalent to the paper's sign by reindexing `k ↦ -k`. -/
+phase is equivalent to the paper's sign by reindexing `k ↦ -k`.
+-/
 theorem periodicGaussian_fourier {t : ℝ} (ht : 0 < t) (u : ℝ) :
     (periodicGaussian t u : ℂ) =
       ∑' k : ℤ, (gaussianFourierCoefficient t k : ℂ) * fourier k ((-u : ℝ) : UnitAddCircle) := by
@@ -223,8 +224,8 @@ section PeriodicGaussianBounds
 /-!
 ## Explicit bounds near the origin
 
-The scalar estimate in Lemma 4.2. The two integer tails are bounded by
-geometric series, with the constants and all convergence statements proved.
+The scalar estimate in the Gaussian main-term lemma. The two integer tails are bounded by geometric
+series, with the constants and all convergence statements proved.
 -/
 
 noncomputable section
@@ -303,7 +304,7 @@ theorem shifted_integer_gaussian_near_zero {a u : ℝ} (ha : 2 ≤ a) (hu : |u| 
   rw [hf0]
   nlinarith [mul_pos (Real.exp_pos (-a * u ^ 2)) (Real.exp_pos (-a / 2))]
 
-/-- Equation `eq:phi-near-zero` in Lemma 4.2, with the paper's constant 3. -/
+/-- Equation `eq:phi-near-zero` in the Gaussian main-term lemma, with the paper's constant 3. -/
 theorem periodicGaussian_near_zero {t u : ℝ} (ht : 1 ≤ t) (hu : |u| ≤ 1 / 4) :
     periodicGaussian t u ≤
       Real.exp (-Real.pi * t ^ 2 * u ^ 2) * (1 + 3 * Real.exp (-Real.pi * t ^ 2 / 2)) := by
@@ -336,7 +337,8 @@ variable {E F : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
   [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
   [NormedAddCommGroup F] [InnerProductSpace ℝ F]
 
-/-- The Gaussian with exponent `-π t² ‖x‖²` has mass `t⁻dim`. -/
+/-- The Gaussian with exponent `-π t² ‖x‖²` has mass `t⁻dim`.
+-/
 theorem integral_gaussianWeight {t : ℝ} (ht : 0 < t) :
     (∫ x : E, gaussianWeight t x) = (t ^ Module.finrank ℝ E)⁻¹ := by
   have hbase : (∫ x : E, Real.exp (-Real.pi * ‖x‖ ^ 2)) = 1 := by
@@ -439,7 +441,7 @@ theorem gramDet_pos {R M : ℕ} (A : Matrix (Fin R) (Fin M) ℤ)
   rw [← realCoefficientMap_transpose_normDet]
   exact normDet_pos_of_injective _ (realCoefficientMap_transpose_injective A hA)
 
-/-- The whole-space normalization in Lemma 4.2. -/
+/-- The whole-space normalization in the Gaussian main-term lemma. -/
 theorem integral_gaussian_transpose {R M : ℕ} (A : Matrix (Fin R) (Fin M) ℤ)
     (hA : Function.Surjective (realCoefficientMap A)) {t : ℝ} (ht : 0 < t) :
     (∫ y : Euclidean R, gaussianWeight t (realCoefficientMap A.transpose y)) =
@@ -465,11 +467,10 @@ section SmoothingExistence
 /-!
 ## Existence of smoothing parameters
 
-The standard integer lattice is self-dual. Its Gaussian sum factors into
-one-dimensional convergent sums, and dominated convergence sends its nonzero
-dual mass to zero as the smoothing parameter tends to infinity. Every finitely
-generated subgroup is a linear image of a standard integer lattice, so metric
-transport yields smoothing existence and completes Lemma 2.3.
+The standard integer lattice is self-dual. Its Gaussian sum factors into one-dimensional convergent
+sums, and dominated convergence sends its nonzero dual mass to zero as the smoothing parameter tends
+to infinity. Every finitely generated subgroup is a linear image of a standard integer lattice, so
+metric transport yields smoothing existence and completes the metric-change lemma.
 -/
 
 noncomputable section
@@ -701,9 +702,9 @@ theorem summable_dual_gaussian_of_fg (L : Submodule ℤ E) (hL : L.FG)
   have h := ENNReal.summable_toReal hmass
   simpa only [ENNReal.toReal_ofReal (gaussianWeight_pos _ _).le] using h
 
-/-- Lemma 2.3, including existence of the smoothing parameters. The result
-even holds for arbitrary continuous linear maps on finitely generated
-subgroups; an isomorphism is not required for the upper bound. -/
+/-- The metric-change lemma, including existence of the smoothing parameters. The result even holds
+for arbitrary continuous linear maps on finitely generated subgroups; an isomorphism is not required
+for the upper bound. -/
 theorem smoothingParameter_metric_change_of_fg (T : E →L[ℝ] F)
     (L : Submodule ℤ E) (hL : L.FG) {ε : ℝ} (hε : 0 < ε) :
     smoothingParameter (latticeImage T L) ε ≤ ‖T‖ * smoothingParameter L ε := by
@@ -735,8 +736,8 @@ section AffineGaussian
 /-!
 ## Gaussian integrals over affine fibers
 
-The contribution of one integer coset in Proposition 4.1 is the Gaussian
-weight of its orthogonal projection, divided by the exact Jacobian.
+The contribution of one integer coset in the exact theta-integral proposition is the Gaussian weight
+of its orthogonal projection, divided by the exact Jacobian.
 -/
 
 noncomputable section
@@ -788,7 +789,7 @@ theorem integrable_gaussianWeight_affine (f : E →ₗ[ℝ] F) (hf : Function.In
   exact div_ne_zero (Real.exp_pos _).ne'
     (mul_ne_zero (pow_ne_zero _ ht.ne') (normDet_pos_of_injective f hf).ne')
 
-/-- The integral appearing in the coset calculation in Proposition 4.1. -/
+/-- The integral appearing in the coset calculation in the exact theta-integral proposition. -/
 theorem integral_coefficient_gaussian_fiber {R M : ℕ}
     (A : Matrix (Fin R) (Fin M) ℤ) (hA : Function.Surjective (realCoefficientMap A))
     (k : Coeff M) {t : ℝ} (ht : 0 < t) :
@@ -812,8 +813,8 @@ section MainTerm
 /-!
 ## The near-origin contribution
 
-Lemma 4.2: the product of periodic Gaussians on the small ball is bounded
-by a Gaussian whose whole-space mass cancels the exact Gram determinant.
+The Gaussian main-term lemma: the product of periodic Gaussians on the small ball is bounded by a
+Gaussian whose whole-space mass cancels the exact Gram determinant.
 -/
 
 noncomputable section
@@ -822,7 +823,7 @@ open MeasureTheory
 
 namespace GeometricGaussianLHL
 
-/-- The actual product integrand in Proposition 4.1. -/
+/-- The actual product integrand in the exact theta-integral proposition. -/
 def thetaIntegrand {R M : ℕ} (A : Matrix (Fin R) (Fin M) ℤ) (t : ℝ)
     (y : Euclidean R) : ℝ :=
   ∏ j, periodicGaussian t (realCoefficientMap A.transpose y j)
@@ -891,7 +892,7 @@ theorem gaussianWeight_product {M : ℕ} (t : ℝ) (x : Euclidean M) :
     gaussianWeight t x = ∏ j, Real.exp (-Real.pi * t ^ 2 * (x j) ^ 2) := by
   rw [gaussianWeight, EuclideanSpace.real_norm_sq_eq, Finset.mul_sum, Real.exp_sum]
 
-/-- The pointwise estimate for the full product in Lemma 4.2. -/
+/-- The pointwise estimate for the full product in the Gaussian main-term lemma. -/
 theorem thetaIntegrand_near_origin {R M : ℕ} (A : Matrix (Fin R) (Fin M) ℤ)
     {B t : ℝ} (hB : 0 < B) (ht : 1 ≤ t) (hcol : ∀ j, ‖realColumn A j‖ ≤ B)
     {y : Euclidean R} (hy : y ∈ nearOriginBall R B) :
@@ -929,7 +930,7 @@ theorem thetaIntegrand_integrableOn_near_origin {R M : ℕ}
   rw [Real.norm_eq_abs, abs_of_nonneg (thetaIntegrand_nonneg A ht0 y)]
   exact thetaIntegrand_near_origin A hB ht hcol hy
 
-/-- Lemma 4.2's bound for the normalized contribution of the small ball. -/
+/-- The Gaussian main-term lemma's bound for the normalized contribution of the small ball. -/
 theorem normalized_near_origin_bound {R M : ℕ} (A : Matrix (Fin R) (Fin M) ℤ)
     (hA : Function.Surjective (realCoefficientMap A))
     {B t : ℝ} (hB : 0 < B) (ht : 1 ≤ t) (hcol : ∀ j, ‖realColumn A j‖ ≤ B) :
@@ -991,7 +992,8 @@ omit [InnerProductSpace ℝ E] in
   unfold gaussianWeight
   fun_prop
 
-/-- No finiteness of the infinite Gaussian sum is needed for this fact. -/
+/-- No finiteness of the infinite Gaussian sum is needed for this fact.
+-/
 theorem nonzeroDualMass_lowerSemicontinuous (L : Submodule ℤ E) :
     LowerSemicontinuous (nonzeroDualMass L) := by
   classical
@@ -1115,7 +1117,8 @@ theorem blockCoefficientMatrix_column_norm {R d m : ℕ}
   rw [blockCoefficientMatrix_column]
   exact (hT k _).trans (mul_le_mul_of_nonneg_left (hX j) hμ)
 
-/-- The identity block embeds every sampled coefficient column into the matrix range. -/
+/-- The identity block embeds every sampled coefficient column into the matrix range.
+-/
 theorem blockCoefficientMatrix_fullRank_of_span {R d m : ℕ}
     (T : Fin d → Matrix (Fin R) (Fin R) ℤ) (X : Fin m → Coeff R)
     (k : Fin d) (hk : T k = 1)
@@ -1194,10 +1197,9 @@ section GramDeterminantBound
 /-!
 ## Bounding the Gram determinant by column norms
 
-AM-GM applied to the nonnegative eigenvalues bounds a positive semidefinite
-determinant by the mean trace. The trace of the Gram matrix is the sum of
-squared column norms. This proves the determinant estimate in Theorem 4.6,
-including singular matrices.
+AM-GM applied to the nonnegative eigenvalues bounds a positive semidefinite determinant by the mean
+trace. The trace of the Gram matrix is the sum of squared column norms. This proves the determinant
+estimate in the finite geometric smoothing theorem, including singular matrices.
 -/
 
 noncomputable section
@@ -1272,7 +1274,8 @@ theorem gramDet_le_column_bound {R M : ℕ} (hR : 0 < R)
   have hrhs : 0 ≤ (B * Real.sqrt ((M : ℝ) / R)) ^ R := by positivity
   nlinarith
 
-/-- Theorem 4.6's determinant normalization, without a rank hypothesis. -/
+/-- The finite geometric smoothing theorem's determinant normalization, without a rank hypothesis.
+-/
 theorem normalized_gramDet_le_column_bound {R M : ℕ} (hR : 0 < R)
     (A : Matrix (Fin R) (Fin M) ℤ) {B t : ℝ} (hB : 0 ≤ B) (ht : 0 ≤ t)
     (hcol : ∀ j, ‖realColumn A j‖ ≤ B) :
@@ -1306,7 +1309,8 @@ theorem gaussianWeight_integer_shift_product {M : ℕ} (t : ℝ) (x : Euclidean 
   rw [gaussianWeight_product]
   simp only [PiLp.sub_apply, integerEmbedding_apply]
 
-/-- Nonnegative expansion, with no convergence prerequisite. -/
+/-- Nonnegative expansion, with no convergence prerequisite.
+-/
 theorem shifted_coefficient_gaussian_tsum_product {M : ℕ} (t : ℝ) (x : Euclidean M) :
     (∑' k : Coeff M, ENNReal.ofReal (gaussianWeight t (integerEmbedding M k - x))) =
       ∏ j, ∑' z : ℤ, ENNReal.ofReal (Real.exp (-Real.pi * t ^ 2 * ((z : ℝ) - x j) ^ 2)) := by
@@ -1327,7 +1331,7 @@ theorem summable_shifted_coefficient_gaussian {M : ℕ} (x : Euclidean M)
   simpa only [ENNReal.toReal_ofReal (gaussianWeight_pos _ _).le] using
     ENNReal.summable_toReal (shifted_coefficient_gaussian_mass_ne_top x ht)
 
-/-- The expansion used at the start of Proposition 4.1's proof. -/
+/-- The expansion used at the start of the exact theta-integral proposition's proof. -/
 theorem thetaIntegrand_ennreal_eq_tsum {R M : ℕ} (A : Matrix (Fin R) (Fin M) ℤ)
     {t : ℝ} (ht : 0 < t) (y : Euclidean R) :
     ENNReal.ofReal (thetaIntegrand A t y) =
@@ -1441,7 +1445,8 @@ theorem ellipsoidWeight_sum_ne_zero (S : Euclidean R ≃L[ℝ] Euclidean R)
     (summable_ellipsoidWeight S c)]
   exact ne_of_gt (ENNReal.ofReal_pos.mpr (ellipsoidPartition_pos S c))
 
-/-- The normalized, centred ellipsoidal Gaussian on actual integer vectors. -/
+/-- The normalized, centred ellipsoidal Gaussian on actual integer vectors.
+-/
 def ellipsoidalGaussian (S : Euclidean R ≃L[ℝ] Euclidean R)
     (c : Euclidean R) : PMF (Coeff R) :=
   PMF.normalize (fun z => ENNReal.ofReal (ellipsoidWeight S c z))
@@ -1516,7 +1521,8 @@ open scoped Pointwise
 
 namespace GeometricGaussianLHL
 
-/-- Translation from `[0,1)^R` to the centered fundamental cell. -/
+/-- Translation from `[0,1)^R` to the centered fundamental cell.
+-/
 def cellShift (R : ℕ) : Euclidean R := WithLp.toLp 2 (fun _ => -(1 / 2 : ℝ))
 
 def centeredCell (R : ℕ) : Set (Euclidean R) :=
@@ -1751,7 +1757,8 @@ theorem summable_ellipsoidalGaussian_exp (S : Euclidean R ≃L[ℝ] Euclidean R)
     using (summable_ellipsoidWeight_exp S h).div_const (ellipsoidPartition S 0)
 
 /-- Exact exponential moment; the remaining Gaussian estimate is a bound
-on the numerator partition function at the displayed centre. -/
+on the numerator partition function at the displayed centre.
+-/
 theorem ellipsoidalGaussian_exp_moment (S : Euclidean R ≃L[ℝ] Euclidean R)
     (h : Euclidean R) :
     (∑' z : Coeff R, (ellipsoidalGaussian S 0 z).toReal *
@@ -1897,7 +1904,8 @@ theorem ellipsoidPartition_eq_tsum_kernel (S : Euclidean R ≃L[ℝ] Euclidean R
   unfold ellipsoidWeight gaussianWeight
   fun_prop
 
-/-- Multiplying the inverse shape by `t` narrows the Gaussian by that factor. -/
+/-- Multiplying the inverse shape by `t` narrows the Gaussian by that factor.
+-/
 def scaledInverseShape (S : Euclidean R ≃L[ℝ] Euclidean R) (t : ℝ) (ht : t ≠ 0) :
     Euclidean R ≃L[ℝ] Euclidean R :=
   (S.symm.trans (ContinuousLinearEquiv.smulLeft (R₁ := ℝ) (M₁ := Euclidean R)
@@ -1983,9 +1991,9 @@ section ContinuousGaussianMoment
 /-!
 ## Continuous Gaussian exponential moments
 
-These exact Lebesgue integral identities supply the auxiliary Gaussian
-integration in Lemma 4.3's norm-tail argument. All integral exchanges in
-that argument can therefore be reduced to nonnegative Tonelli integrals.
+These exact Lebesgue integral identities supply the auxiliary Gaussian integration in the elementary
+Gaussian estimates lemma's norm-tail argument. All integral exchanges in that argument can therefore
+be reduced to nonnegative Tonelli integrals.
 -/
 
 noncomputable section
@@ -2090,7 +2098,8 @@ open scoped Topology
 
 namespace GeometricGaussianLHL
 
-/-- A shift costs a constant factor and a factor of two in the precision. -/
+/-- A shift costs a constant factor and a factor of two in the precision.
+-/
 theorem gaussianWeight_shift_half_le {E : Type*} [NormedAddCommGroup E]
     (x c : E) : gaussianWeight 1 (x - c) ≤
       Real.exp (Real.pi * ‖c‖ ^ 2) * gaussianWeight (1 / Real.sqrt 2) x := by
@@ -2435,11 +2444,10 @@ section EllipsoidMaximum
 /-!
 ## Maximum of the ellipsoidal partition function
 
-Unfolding the autocorrelation of a narrower periodized Gaussian gives a
-positive constant times the original partition function. The square
-inequality proves the maximum at zero. Combined with exact exponential
-tilting, this proves the second estimate in Lemma 4.3 without requiring
-a separate multidimensional Poisson summation theorem.
+Unfolding the autocorrelation of a narrower periodized Gaussian gives a positive constant times the
+original partition function. The square inequality proves the maximum at zero. Combined with exact
+exponential tilting, this proves the second estimate in the elementary Gaussian estimates lemma
+without requiring a separate multidimensional Poisson summation theorem.
 -/
 
 noncomputable section
@@ -2537,7 +2545,8 @@ theorem ellipsoidalGaussian_exp_moment_le (S : Euclidean R ≃L[ℝ] Euclidean R
   exact mul_le_of_le_one_right (Real.exp_pos _).le
     ((div_le_one (ellipsoidPartition_pos S 0)).mpr (ellipsoidPartition_le_zero S _))
 
-/-- Lemma 4.3, second estimate, for the paper's self-adjoint shapes. -/
+/-- The elementary Gaussian estimates lemma, second estimate, for the paper's self-adjoint shapes.
+-/
 theorem ellipsoidalGaussian_exp_moment_le_selfAdjoint
     (S : Euclidean R ≃L[ℝ] Euclidean R) (hS : IsSelfAdjoint S.toContinuousLinearMap)
     (h : Euclidean R) :

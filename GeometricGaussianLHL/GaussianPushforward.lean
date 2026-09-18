@@ -87,7 +87,8 @@ theorem kernelOrthogonalEquiv_covariance (f : E →L[ℝ] F)
   rfl
 
 /-- Equal covariances give the same inverse quadratic form, even when the
-two source inner-product spaces are different. -/
+two source inner-product spaces are different.
+-/
 theorem equiv_symm_norm_sq_eq_of_covariance_eq (B : E ≃L[ℝ] F) (T : F ≃L[ℝ] F)
     (h : B.toContinuousLinearMap.comp B.toContinuousLinearMap.adjoint = shapeCovariance T)
     (y : F) : ‖B.symm y‖ ^ 2 = ‖T.symm y‖ ^ 2 := by
@@ -282,7 +283,8 @@ theorem independentProduct_cons {α : Type*} {n : ℕ} (p : Fin (n + 1) → PMF 
   simp only [independentProduct_apply, Fin.prod_univ_succ, e, Fin.consEquiv,
     Equiv.coe_fn_mk, Fin.cons_zero, Fin.cons_succ]
 
-/-- Applying separate, arbitrary functions preserves independence. -/
+/-- Applying separate, arbitrary functions preserves independence.
+-/
 theorem independentProduct_map {α β : Type*} {n : ℕ} (p : Fin n → PMF α)
     (f : Fin n → α → β) :
     (independentProduct p).map (fun z i => f i (z i)) =
@@ -404,7 +406,8 @@ theorem numberFieldGaussian_apply (b : Basis (Fin d) ℤ (𝓞 K))
     (summable_numberFieldGaussianWeight K b n s hs), ← div_eq_mul_inv]
   exact (ENNReal.ofReal_div_of_pos (numberFieldGaussianPartition_pos K b n s hs)).symm
 
-/-- The basis is used to prove convergence; it does not change the law. -/
+/-- The basis is used to prove convergence; it does not change the law.
+-/
 theorem numberFieldGaussian_basis_independent {d' : ℕ}
     (b : Basis (Fin d) ℤ (𝓞 K)) (b' : Basis (Fin d') ℤ (𝓞 K))
     (n : ℕ) (s : ℝ) (hs : s ≠ 0) :
@@ -1073,7 +1076,8 @@ def numberFieldEllipsoidalGaussian (b : Basis (Fin d) ℤ (𝓞 K)) (n : ℕ)
   (latticeGaussianCentered (canonicalEuclideanLattice K b n) S (canonicalEuclideanLatticeEquiv K b n c)).map
     (canonicalEuclideanLatticeEquiv K b n).symm
 
-/-- The defining Gaussian point masses, with a proved positive and convergent normalization. -/
+/-- The defining Gaussian point masses, with a proved positive and convergent normalization.
+-/
 theorem numberFieldEllipsoidalGaussian_apply (b : Basis (Fin d) ℤ (𝓞 K)) (n : ℕ)
     (S : Euclidean (n * d) ≃L[ℝ] Euclidean (n * d)) (c x : Fin n → 𝓞 K) :
     numberFieldEllipsoidalGaussian K b n S c x = ENNReal.ofReal
@@ -1379,10 +1383,9 @@ section NumberFieldSphericalGaussian
 /-!
 ## Spherical ring Gaussians and covariance invariance
 
-Scalar Euclidean shapes recover the actual spherical ring Gaussian.
-Equal covariances give equal normalized ring-vector laws, including every
-ring-valued center. These identities identify the shaped image with the
-spherical target in Corollary 5.2.
+Scalar Euclidean shapes recover the actual spherical ring Gaussian. Equal covariances give equal
+normalized ring-vector laws, including every ring-valued center. These identities identify the
+shaped image with the spherical target in the spherical-output corollary.
 -/
 
 noncomputable section
@@ -1491,9 +1494,9 @@ section NumberFieldProducts
 /-!
 ## Product coefficient laws for power-of-two number fields
 
-Corollary 2.2 is an equality of the actual canonical ring-Gaussian PMF with
-independent integer Gaussians in power-basis coordinates. The same equality
-is proved for vectors and independently sampled ring-matrix columns.
+The product coefficient Gaussian corollary is an equality of the actual canonical ring-Gaussian PMF
+with independent integer Gaussians in power-basis coordinates. The same equality is proved for
+vectors and independently sampled ring-matrix columns.
 -/
 
 noncomputable section
@@ -1530,8 +1533,8 @@ theorem numberFieldGaussian_product_of_diagonal (b : Basis (Fin d) ℤ (𝓞 K))
 
 variable {k : ℕ} [IsCyclotomicExtension {2 ^ (k + 1)} ℚ K] {ζ : K}
 
-/-- Corollary 2.2, including the coordinatewise law on arbitrary powers of
-the ring of integers and the degree-one field. -/
+/-- The product coefficient Gaussian corollary, including the coordinatewise law on arbitrary powers
+of the ring of integers and the degree-one field. -/
 theorem powerTwoGaussian_product (hζ : IsPrimitiveRoot ζ (2 ^ (k + 1)))
     (n : ℕ) {s : ℝ} (hs : 0 < s) :
     (numberFieldGaussian K (cyclotomicIntegralBasis K hζ) n s hs.ne').map
@@ -1563,10 +1566,10 @@ section LatticeParameterStability
 /-!
 ## Parameter stability on every full Euclidean lattice
 
-Lemma 2.5, with the universal constant `128`, for Gaussian PMFs normalized
-on the actual lattice. A concrete precision prescription gives any target
-distance in `(0,1]`; explicit comparisons justify its asserted asymptotic
-scale as the target distance tends to zero.
+The Gaussian parameter-stability lemma, with the universal constant `128` , for Gaussian PMFs
+normalized on the actual lattice. A concrete precision prescription gives any target distance in
+`(0,1]` ; explicit comparisons justify its asserted asymptotic scale as the target distance tends to
+zero.
 -/
 
 noncomputable section
@@ -1589,7 +1592,7 @@ theorem latticeGaussian_parameter_stability (L : Submodule ℤ (Euclidean n))
   apply ellipsoidalGaussian_parameter_stability _ _ hξ hξhalf hθ hθhalf
   simpa only [latticeCoefficientShape, relativePrecision_change_coordinates] using hrel
 
-/-- The exact covariance-inverse formulation in Lemma 2.5. Invertible
+/-- The exact covariance-inverse formulation in the Gaussian parameter-stability lemma. Invertible
 shapes include all the positive-definite parameter matrices in the paper. -/
 theorem lattice_parameter_stability_certificate (L : Submodule ℤ (Euclidean n))
     [DiscreteTopology L] [IsZLattice ℝ L] (S T : Euclidean n ≃L[ℝ] Euclidean n)
@@ -1717,7 +1720,8 @@ variable {n r : ℕ} (L : Submodule ℤ (Euclidean n)) [DiscreteTopology L] [IsZ
   (M : Submodule ℤ (Euclidean r)) (A : Euclidean n →ₗ[ℝ] Euclidean r)
   (hmap : ∀ x ∈ L, A x ∈ M) (S : Euclidean n ≃L[ℝ] Euclidean n)
 
-/-- Point mass at the image of any lattice vector, expressed as a convergent kernel sum. -/
+/-- Point mass at the image of any lattice vector, expressed as a convergent kernel sum.
+-/
 theorem latticeGaussian_map_kernel_sum (x : L) :
     (latticeGaussian L S).map (latticeRestriction L M A hmap)
         (latticeRestriction L M A hmap x) =
@@ -1824,7 +1828,8 @@ theorem latticeRestriction_surjective_real
   obtain ⟨x, hx⟩ := hsurj ⟨y, hy⟩
   exact ⟨x, congrArg Subtype.val hx⟩
 
-/-- The centred Gaussian pushforward bound for the actual lattice laws. -/
+/-- The centred Gaussian pushforward bound for the actual lattice laws.
+-/
 theorem latticeGaussian_pushforward
     (hsurj : Function.Surjective (latticeRestriction L M A hmap))
     (hspan : Submodule.span ℝ (latticeKernel L A : Set (Euclidean n)) = A.ker)
@@ -1991,7 +1996,8 @@ theorem euclideanMatrix_adjoint (f : Euclidean n →ₗ[ℝ] Euclidean r) :
   rw [LinearEquiv.apply_symm_apply, Matrix.toEuclideanLin_conjTranspose_eq_adjoint,
     LinearEquiv.apply_symm_apply]
 
-/-- The covariance matrix is the paper's literal `A S Sᵀ Aᵀ` product. -/
+/-- The covariance matrix is the paper's literal `A S Sᵀ Aᵀ` product.
+-/
 theorem gaussianPushforwardCovariance_matrix (A : Euclidean n →L[ℝ] Euclidean r)
     (S : Euclidean n ≃L[ℝ] Euclidean n) :
     Matrix.toEuclideanLin.symm (gaussianPushforwardCovariance A S).toLinearMap =
@@ -2051,10 +2057,9 @@ section NumberFieldPushforward
 /-!
 ## Number-field Gaussian pushforward
 
-Lemma 2.4, with the necessary error range `0 < ε < 1`.
-Both distributions are actual PMFs on ring vectors. The target shape is
-the positive matrix square root of the canonical image covariance, and
-the smoothing hypothesis uses the original canonical kernel lattice.
+The Gaussian pushforward lemma, with the necessary error range `0 < ε < 1` . Both distributions are
+actual PMFs on ring vectors. The target shape is the positive matrix square root of the canonical
+image covariance, and the smoothing hypothesis uses the original canonical kernel lattice.
 -/
 
 noncomputable section

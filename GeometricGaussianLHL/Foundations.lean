@@ -49,10 +49,9 @@ section Foundations
 /-!
 ## Coefficient kernels and image indices
 
-The integer matrix in Section 2.2 is represented by its actual linear map.
-In particular, real full row rank and integer surjectivity are different
-properties. The image index is the cardinality of the quotient group, with
-Mathlib's convention that an infinite index is zero.
+The integer coefficient matrix is represented by its actual linear map. In particular, real full row
+rank and integer surjectivity are different properties. The image index is the cardinality of the
+quotient group, with Mathlib's convention that an infinite index is zero.
 -/
 
 noncomputable section
@@ -214,7 +213,8 @@ theorem gaussianWeight_antitone {s t : ℝ} (hs : 0 ≤ s) (hst : s ≤ t) (v : 
   nlinarith
 
 /-- Scaling the smoothing parameter raises every Gaussian weight to a real
-power, as in equation (43). -/
+power, as in equation (43).
+-/
 theorem gaussianWeight_mul_sqrt (t q : ℝ) (hq : 0 ≤ q) (v : E) :
     gaussianWeight (t * Real.sqrt q) v = (gaussianWeight t v) ^ q := by
   rw [gaussianWeight, gaussianWeight, Real.rpow_def_of_pos (Real.exp_pos _),
@@ -337,7 +337,8 @@ theorem shapeMinimumStretch_mul_norm_le (S : E ≃L[ℝ] E) (x : E) :
 theorem shapeMinimumStretch_pos [Nontrivial E] (S : E ≃L[ℝ] E) :
     0 < shapeMinimumStretch S := inv_pos.mpr S.symm.norm_pos
 
-/-- The positive lower-stretch constants are exactly those below the minimum stretch. -/
+/-- The positive lower-stretch constants are exactly those below the minimum stretch.
+-/
 theorem le_shapeMinimumStretch_iff [Nontrivial E] (S : E ≃L[ℝ] E) {c : ℝ} (hc : 0 < c) :
     c ≤ shapeMinimumStretch S ↔ ∀ x : E, c * ‖x‖ ≤ ‖S x‖ := by
   constructor
@@ -406,7 +407,8 @@ theorem constant_failureBudget_le {ell : ℕ} (hell : 1 ≤ ell) :
     _ = 1 / 128 := by norm_num [securityError]
 
 /-- The paper's accuracy parameter is real. The natural-parameter definition
-above is retained for its existing arithmetic corollaries. -/
+above is retained for its existing arithmetic corollaries.
+-/
 def realSecurityError (ell : ℝ) : ℝ := ((2 : ℝ) ^ ell)⁻¹
 
 theorem realSecurityError_pos (ell : ℝ) : 0 < realSecurityError ell := by
@@ -459,7 +461,7 @@ theorem jointErrorBound_one_lt {δ : ℝ} (hδ : 0 < δ) (hu : δ ≤ 1 / 32) :
   simp only [jointErrorBound, Nat.cast_one, mul_one]
   linarith
 
-/-- The numerical inequality in Corollary 5.1 at polynomial width. -/
+/-- The numerical inequality in the geometric Gaussian LHL corollary at polynomial width. -/
 theorem polynomial_jointError_lt {ell : ℕ} (hell : 1 ≤ ell) :
     jointErrorBound (securityError (ell + 4)) 1 < securityError ell := by
   have h := jointErrorBound_one_lt (securityError_pos (ell + 4))
@@ -468,7 +470,7 @@ theorem polynomial_jointError_lt {ell : ℕ} (hell : 1 ≤ ell) :
   norm_num at h ⊢
   linarith [securityError_pos ell]
 
-/-- The numerical inequality in Corollary 5.1 at constant width. -/
+/-- The numerical inequality in the geometric Gaussian LHL corollary at constant width. -/
 theorem constant_jointError_lt {ell : ℕ} (hell : 1 ≤ ell) :
     jointErrorBound (securityError (ell + 6)) 1 < securityError ell := by
   have hu : securityError (ell + 6) ≤ 1 / 32 :=
@@ -677,10 +679,9 @@ section FiniteRounding
 /-!
 ## Finite rounding with bounded overshoot
 
-The displacement construction in Lemma 4.4 first rounds toward zero and
-then increments a subset of coordinates. The subset sum crosses its target
-by less than one weight; each resulting coordinate stays within one of
-the unrounded real vector.
+The displacement construction in the integer-displacement lemma first rounds toward zero and then
+increments a subset of coordinates. The subset sum crosses its target by less than one weight; each
+resulting coordinate stays within one of the unrounded real vector.
 -/
 
 noncomputable section
@@ -781,7 +782,8 @@ namespace GeometricGaussianLHL
 
 variable {O : Type*} [CommRing O] {d r m : ℕ}
 
-/-- Coordinates ordered by the pair (ring coordinate, basis coordinate). -/
+/-- Coordinates ordered by the pair (ring coordinate, basis coordinate).
+-/
 def ringPowerCoordinates (b : Basis (Fin d) ℤ O) (n : ℕ) :
     (Fin n → O) ≃ₗ[ℤ] Coeff (n * d) where
   toFun x l := b.equivFun (x (finProdFinEquiv.symm l).1) (finProdFinEquiv.symm l).2
@@ -874,9 +876,9 @@ section IndexExtraction
 /-!
 ## Extracting surjectivity from a theta bound
 
-These are the algebraic deductions after Proposition 4.1. They do not assert
-the integral identity or its probabilistic estimate; those are separate proof
-obligations. The mass supplied to these lemmas must include the origin.
+These are the algebraic deductions after the exact theta-integral proposition. They do not assert
+the integral identity or its probabilistic estimate; those are separate proof obligations. The mass
+supplied to these lemmas must include the origin.
 -/
 
 namespace GeometricGaussianLHL
@@ -906,8 +908,9 @@ theorem surjective_and_mass_of_index_bound {R M : ℕ}
   obtain ⟨hI, hm⟩ := index_and_mass_of_bound (imageIndex_pos A) hmass hε hbound
   exact ⟨(imageIndex_eq_one_iff A).mp hI, hm⟩
 
-/-- Assembly of the near-origin contribution and remainder in Theorems 4.6
-and 4.9, once both analytic estimates and the identity have been proved. -/
+/-- Assembly of the near-origin contribution and remainder in the polynomial-width and
+constant-width smoothing theorems, once both analytic estimates and the identity have been proved.
+-/
 theorem index_and_mass_of_main_and_remainder {I : ℕ} {mass near far δ : ℝ}
     (hI : 0 < I) (hmass : 1 ≤ mass) (hδ : δ < 1 / 2)
     (hidentity : (I : ℝ) * mass = near + far)
@@ -953,9 +956,9 @@ section ProjectedDual
 /-!
 ## Projected ambient dual vectors
 
-The geometric argument of Proposition 4.14. The inclusion proved here needs
-no primitivity assumption: primitivity is needed for equality with the whole
-projected ambient dual, but not for the short-vector upper bound.
+The geometric argument of the projected-dual-vector proposition. The inclusion proved here needs no
+primitivity assumption: primitivity is needed for equality with the whole projected ambient dual,
+but not for the short-vector upper bound.
 -/
 
 noncomputable section
@@ -995,9 +998,9 @@ theorem exists_nonzero_basis_projection {ι : Type*} (b : Module.Basis ι ℝ E)
     V.starProjection_eq_self_iff.mpr hv, LinearMap.zero_apply] at hz
   exact hz
 
-/-- Proposition 4.14's short-vector conclusion, formulated for any bounded
-ambient basis with integral pairings on `L`. This specializes to a basis of
-the ambient dual lattice, and to the standard basis for coefficient kernels. -/
+/-- The projected-dual-vector proposition's short-vector conclusion, formulated for any bounded
+ambient basis with integral pairings on `L` . This specializes to a basis of the ambient dual
+lattice, and to the standard basis for coefficient kernels. -/
 theorem exists_short_dual_vector {ι : Type*} (L : Submodule ℤ E)
     (b : Module.Basis ι ℝ E) {β : ℝ}
     (hL : Submodule.span ℝ (L : Set E) ≠ ⊥)
@@ -1008,8 +1011,8 @@ theorem exists_short_dual_vector {ι : Type*} (L : Submodule ℤ E)
   exact ⟨_, projection_mem_latticeDual L (b i) (hintegral i), hi,
     (Submodule.norm_starProjection_apply_le _ (b i)).trans (hb i)⟩
 
-/-- The coefficient-kernel part of Proposition 4.14, for the actual kernel
-of every integer matrix with more columns than rows. -/
+/-- The coefficient-kernel part of the projected-dual-vector proposition, for the actual kernel of
+every integer matrix with more columns than rows. -/
 theorem exists_short_coefficientKernel_dual {R M : ℕ}
     (A : Matrix (Fin R) (Fin M) ℤ) (hRM : R < M) :
     ∃ v : Euclidean M, v ∈ latticeDual (euclideanKernel A) ∧ v ≠ 0 ∧ ‖v‖ ≤ 1 := by
@@ -1033,9 +1036,9 @@ section SmoothingLower
 /-!
 ## The two-vector smoothing lower bound
 
-The first inequality of Proposition 3.3 and the analytic step of Proposition
-4.14. Passing to the real infimum explicitly requires a nonempty smoothing
-set; existence for discrete lattices is a separate analytic obligation.
+The first inequality of the smoothing lower-bound proposition and the analytic step of the
+projected-dual-vector proposition. Passing to the real infimum explicitly requires a nonempty
+smoothing set; existence for discrete lattices is a separate analytic obligation.
 -/
 
 open scoped ENNReal
@@ -1115,10 +1118,9 @@ section KernelDual
 /-!
 ## The intrinsic dual of an integer kernel
 
-The kernel is a direct summand of the ambient integer module: the image of
-an integer matrix is free over `ℤ`, hence projective. This allows an integer
-functional on the kernel to extend to the ambient module and supplies the
-reverse inclusion in Lemma 3.2.
+The kernel is a direct summand of the ambient integer module: the image of an integer matrix is free
+over `ℤ` , hence projective. This allows an integer functional on the kernel to extend to the
+ambient module and supplies the reverse inclusion in the primitive-kernel duality lemma.
 -/
 
 noncomputable section
@@ -1194,7 +1196,7 @@ theorem integer_functional_eq_dot {M : ℕ} (g : Coeff M →ₗ[ℤ] ℤ) (z : C
       congr 1
       simpa only [Pi.basisFun_repr] using (Pi.basisFun ℤ (Fin M)).sum_repr z
 
-/-- The reverse inclusion in Lemma 3.2. No full-row-rank assumption is
+/-- The reverse inclusion in the primitive-kernel duality lemma. No full-row-rank assumption is
 required for the dual of the integer kernel. -/
 theorem dual_kernel_vector_is_projection {R M : ℕ}
     (A : Matrix (Fin R) (Fin M) ℤ) (v : latticeDual (euclideanKernel A)) :
@@ -1222,8 +1224,8 @@ theorem dual_kernel_vector_is_projection {R M : ℕ}
   intro z hz
   exact hspan hz
 
-/-- Lemma 3.2's projected-dual identity for the actual Euclidean realization
-of the coefficient kernel. -/
+/-- The primitive-kernel duality lemma's projected-dual identity for the actual Euclidean
+realization of the coefficient kernel. -/
 theorem mem_dual_kernel_iff_projection {R M : ℕ}
     (A : Matrix (Fin R) (Fin M) ℤ) (v : Euclidean M) :
     v ∈ latticeDual (euclideanKernel A) ↔
@@ -1289,7 +1291,8 @@ theorem projected_adjoint_mem_dual (T : E →L[ℝ] F) (L : Submodule ℤ E)
     (latticeImage_apply_mem T L hz)
   exact ⟨k, by rw [ContinuousLinearMap.adjoint_inner_left]; exact hk⟩
 
-/-- The adjoint restricted to the intrinsic spans. -/
+/-- The adjoint restricted to the intrinsic spans.
+-/
 def dualPullback (T : E →L[ℝ] F) (L : Submodule ℤ E) :
     latticeDual (latticeImage T L) →ₗ[ℤ] latticeDual L :=
   (((Submodule.span ℝ (L : Set E)).starProjection.toLinearMap.restrictScalars ℤ).comp
@@ -1429,10 +1432,10 @@ section RealKernel
 /-!
 ## Integer and real kernels
 
-Discreteness identifies the integer rank of each coefficient submodule with
-the real dimension of its span. Rank-nullity then proves that the real span
-of the integer kernel is exactly the kernel of the real coefficient matrix.
-This supplies the subspace appearing in Lemma 3.2's projection formula.
+Discreteness identifies the integer rank of each coefficient submodule with the real dimension of
+its span. Rank-nullity then proves that the real span of the integer kernel is exactly the kernel of
+the real coefficient matrix. This supplies the subspace appearing in the primitive-kernel duality
+lemma's projection formula.
 -/
 
 noncomputable section
@@ -1536,7 +1539,8 @@ theorem euclideanKernel_span_eq_real_ker {R M : ℕ} (A : Matrix (Fin R) (Fin M)
     exact Nat.add_left_cancel (hi.trans hr.symm)
   exact hk.trans heq
 
-/-- Lemma 3.2, with projection onto the kernel of the actual real matrix. -/
+/-- The primitive-kernel duality lemma, with projection onto the kernel of the actual real matrix.
+-/
 theorem mem_dual_kernel_iff_real_projection {R M : ℕ}
     (A : Matrix (Fin R) (Fin M) ℤ) (v : Euclidean M) :
     v ∈ latticeDual (euclideanKernel A) ↔
@@ -1555,8 +1559,8 @@ theorem realCoefficientMap_ker_orthogonal {R M : ℕ}
     (realCoefficientMap A).kerᗮ = (realCoefficientMap A.transpose).range := by
   rw [LinearMap.orthogonal_ker, realCoefficientMap_transpose]
 
-/-- Both descriptions in Lemma 3.2: an intrinsic dual vector lies in the real
-kernel and is an integer vector plus a vector in the transpose's range. -/
+/-- Both descriptions in the primitive-kernel duality lemma: an intrinsic dual vector lies in the
+real kernel and is an integer vector plus a vector in the transpose's range. -/
 theorem mem_dual_kernel_iff_integer_add_transpose {R M : ℕ}
     (A : Matrix (Fin R) (Fin M) ℤ) (v : Euclidean M) :
     v ∈ latticeDual (euclideanKernel A) ↔
@@ -1595,10 +1599,9 @@ section ImageRank
 /-!
 ## Full row rank and finite image index
 
-Full row rank over the reals is equivalent to finite index of the image over
-the integers. It does not imply that this index is one. This removes the
-separate finite-quotient hypothesis from the index-extraction step used with
-Proposition 4.1.
+Full row rank over the reals is equivalent to finite index of the image over the integers. It does
+not imply that this index is one. This removes the separate finite-quotient hypothesis from the
+index-extraction step used with the exact theta-integral proposition.
 -/
 
 noncomputable section
@@ -1682,7 +1685,8 @@ theorem imageIndex_mul_of_surjective {R N M : ℕ} (C : Matrix (Fin R) (Fin N) �
   rw [imageIndex, coefficientImage_mul_of_surjective C B hB]
   rfl
 
-/-- The index of the range of an injective square integer matrix. -/
+/-- The index of the range of an injective square integer matrix.
+-/
 theorem imageIndex_square_eq_natAbs_det {R : ℕ} (C : Matrix (Fin R) (Fin R) ℤ)
     (hC : Function.Injective (coefficientMap C)) : imageIndex C = C.det.natAbs := by
   have h := Submodule.natAbs_det_equiv (coefficientMap C).range

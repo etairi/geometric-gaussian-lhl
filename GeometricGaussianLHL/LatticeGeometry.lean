@@ -40,9 +40,9 @@ section BallVolumeBound
 /-!
 ## An elementary lower bound for Euclidean ball volume
 
-The Gamma recurrence gives `Γ(N/2+1) ≤ (N/2)^(N/2)` for every integer
-dimension `N ≥ 2`. This suffices for the numerical smoothing constant in
-Proposition 3.3 without an asymptotic estimate for the Gamma function.
+The Gamma recurrence gives `Γ(N/2+1) ≤ (N/2)^(N/2)` for every integer dimension `N ≥ 2` . This
+suffices for the numerical smoothing constant in the smoothing lower-bound proposition without an
+asymptotic estimate for the Gamma function.
 -/
 
 noncomputable section
@@ -774,7 +774,8 @@ theorem lattice_span_ne_bot {L : Submodule ℤ E} (hL : L ≠ ⊥) :
   rw [h] at hx'
   exact hx'
 
-/-- The full short-vector statement in arbitrary image coordinates. -/
+/-- The full short-vector statement in arbitrary image coordinates.
+-/
 theorem exists_short_image_integer_dual {n : ℕ} (T : Euclidean n ≃L[ℝ] F)
     (L : Submodule ℤ F) (hL : L ≠ ⊥)
     (hsub : L ≤ latticeImage T.toContinuousLinearMap (integerLattice n)) :
@@ -803,8 +804,8 @@ theorem image_integer_sublattice_fg {n : ℕ} (T : Euclidean n →L[ℝ] F)
   apply Submodule.FG.of_le _ hsub
   exact (Submodule.FG.of_finite (N := integerLattice n)).map _
 
-/-- The coefficient-coordinate part of Proposition 4.14 for arbitrary
-nonzero sublattices, with a simultaneous statement for all positive errors. -/
+/-- The coefficient-coordinate part of the projected-dual-vector proposition for arbitrary nonzero
+sublattices, with a simultaneous statement for all positive errors. -/
 theorem integer_sublattice_projected_dual {n : ℕ} (L : Submodule ℤ (Euclidean n))
     (hL : L ≠ ⊥) (hsub : L ≤ integerLattice n) :
     (∃ v : Euclidean n, v ∈ latticeDual L ∧ v ≠ 0 ∧ ‖v‖ ≤ 1) ∧
@@ -836,9 +837,9 @@ section CanonicalLower
 /-!
 ## The canonical projected-dual lower bound
 
-Proposition 4.14 for actual number-field lattices, including every kernel
-with more ring columns than rows. The proof also applies to nonprimitive
-nonzero subgroups of the canonical ambient lattice.
+The projected-dual-vector proposition for actual number-field lattices, including every kernel with
+more ring columns than rows. The proof also applies to nonprimitive nonzero subgroups of the
+canonical ambient lattice.
 -/
 
 noncomputable section
@@ -933,7 +934,7 @@ theorem canonicalKernel_projected_dual (b : Basis (Fin d) ℤ (𝓞 K))
     fun _ hε => canonical_smoothing_lower K b _ (canonicalKernel_ne_bot K b X hmr)
       (canonicalKernel_le_lattice K X) hε⟩
 
-/-- The corrected formula following Lemma 3.2, for the actual canonical
+/-- The corrected formula following the primitive-kernel duality lemma, for the actual canonical
 number-field kernel. -/
 theorem canonicalKernel_dual_formula (b : Basis (Fin d) ℤ (𝓞 K))
     (X : Matrix (Fin r) (Fin m) (𝓞 K)) (y : CanonicalPower K m) :
@@ -1222,7 +1223,8 @@ theorem canonicalKernel_discrete (b : Basis (Fin d) ℤ (𝓞 K))
   rw [canonicalKernel_eq_image K b X, latticeImage_equiv_eq_comap]
   infer_instance
 
-/-- The rank assertion of Proposition 3.1. -/
+/-- The rank assertion of the kernel covolume proposition.
+-/
 theorem canonicalKernel_rank (b : Basis (Fin d) ℤ (𝓞 K))
     (X : Matrix (Fin r) (Fin m) (𝓞 K)) (hX : Function.Surjective X.mulVec) :
     finrank ℤ (canonicalKernel K X) = d * (m - r) := by
@@ -1404,7 +1406,8 @@ theorem canonical_surjective_rows_le (b : Basis (Fin d) ℤ (𝓞 K))
   have hd := integralBasis_dimension_pos K b
   nlinarith
 
-/-- The exact covolume identity of Proposition 3.1. -/
+/-- The exact covolume identity of the kernel covolume proposition.
+-/
 theorem canonicalKernel_covolume (b : Basis (Fin d) ℤ (𝓞 K))
     (X : Matrix (Fin r) (Fin m) (𝓞 K)) (hX : Function.Surjective X.mulVec) :
     intrinsicCovolume (canonicalKernel K X) =
@@ -1580,7 +1583,8 @@ theorem kernelMinimumStretch_pos [Nontrivial F] (f : E →ₗ[ℝ] F)
   inv_pos.mpr (kernelOrthogonalEquiv f hf).symm.toContinuousLinearEquiv.norm_pos
 
 /-- The inverse-norm definition is the best uniform lower stretch, so it
-represents the smallest nonzero singular value in a coordinate-free way. -/
+represents the smallest nonzero singular value in a coordinate-free way.
+-/
 theorem le_kernelMinimumStretch_iff [Nontrivial F] (f : E →ₗ[ℝ] F)
     (hf : Function.Surjective f) {c : ℝ} (hc : 0 < c) :
     c ≤ kernelMinimumStretch f hf ↔ ∀ x : f.kerᗮ, c * ‖x‖ ≤ ‖f (x : E)‖ := by

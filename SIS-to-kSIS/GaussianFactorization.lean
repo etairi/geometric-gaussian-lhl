@@ -5,28 +5,24 @@ import «SIS-to-kSIS».BlockAlgebra
 /-!
 # Coordinate factorizations and sequential Gaussian sampling laws
 
-The independent ring-coordinate description identifies the spherical matrix
-law and the diagonal-width column law used by the reduction games. Sequential
-Gaussian laws have an exact product mass, explicit normalizer-bias bounds, and
-a proved adaptive hybrid bound for the finite scalar samplers. Stored rational
-Schur elimination has verified exact covariance factorization and pivot lower
-bounds. Its triangular Gaussian target equals the existing ellipsoidal law.
-Uniform polynomial bounds control the exact factorization’s intermediate
-rational sizes, stored output sizes, and accumulated declared costs. Stored
-prefix centers have exact values, polynomial costs, and additive output-size
-bounds. The stored adaptive run realizes the sequential law. Its composition
-with exact rational factorization samples the coefficient ellipsoidal Gaussian
-within the supplied error budget, with polynomial costs and output lengths
-bounded by the original covariance input. In a scalar-Gram integral basis,
-the computed rational shape gives an exact coefficient covariance and a
-finite number-field sampler. Its error and width margins match Section 5.2;
-a bounded rank check, rational shaping, and identity fallback compose into a
-stored column sampler with polynomial cost on every encoded input. Supplied
-basis multiplication tables prepare the exact coefficient matrices from initial
-samples. Shared shaping and finite conditional tapes generate both hint blocks,
-with polynomial arithmetic costs and output sizes. Stored ring multiplication,
-block assembly, and modular reduction then construct the adversary inputs and
-cache the exact extraction matrix, with uniform polynomial declared costs.
+The independent ring-coordinate description identifies the spherical matrix law and the
+diagonal-width column law used by the reduction games. Sequential Gaussian laws have an exact
+product mass, explicit normalizer-bias bounds, and a proved adaptive hybrid bound for the finite
+scalar samplers. Stored rational Schur elimination has verified exact covariance factorization and
+pivot lower bounds. Its triangular Gaussian target equals the existing ellipsoidal law. Uniform
+polynomial bounds control the exact factorization’s intermediate rational sizes, stored output
+sizes, and accumulated declared costs. Stored prefix centers have exact values, polynomial costs,
+and additive output-size bounds. The stored adaptive run realizes the sequential law. Its
+composition with exact rational factorization samples the coefficient ellipsoidal Gaussian within
+the supplied error budget, with polynomial costs and output lengths bounded by the original
+covariance input. In a scalar-Gram integral basis, the computed rational shape gives an exact
+coefficient covariance and a finite number-field sampler. Its error and width margins match the
+spectral hint-generator lemma; a bounded rank check, rational shaping, and identity fallback compose
+into a stored column sampler with polynomial cost on every encoded input. Supplied basis
+multiplication tables prepare the exact coefficient matrices from initial samples. Shared shaping
+and finite conditional tapes generate both hint blocks, with polynomial arithmetic costs and output
+sizes. Stored ring multiplication, block assembly, and modular reduction then construct the
+adversary inputs and cache the exact extraction matrix, with uniform polynomial declared costs.
 -/
 
 noncomputable section
@@ -3316,7 +3312,7 @@ theorem canonicalComputedShape_sampling_margin (b : Basis (Fin d) ℤ (𝓞 K)) 
   convert h using 1
   ring
 
-/-- The sampling width in Section 5.2 meets the finite sampler's logarithmic threshold. -/
+/-- The spectral hint-generator sampling width meets the finite sampler's logarithmic threshold. -/
 theorem sampling_radius_log_budget {N : ℕ} (hN : 2 ≤ N) {ε C : ℝ}
     (hε : 0 < ε) (hεone : ε ≤ 1) (hC : 1 ≤ C) :
     4 * Real.log ((N : ℝ) / ε) ≤ 4 * (C * Real.sqrt (Real.log ((N : ℝ) / ε))) ^ 2 := by
@@ -3340,8 +3336,8 @@ theorem computedNumberFieldSampleLaw_error_of_width (b : Basis (Fin d) ℤ (𝓞
   computedNumberFieldSampleLaw_error K b hGram n hN R hR (by positivity)
     (canonicalComputedShape_sampling_margin K b n R hR hr hwidth) hε hεone hlog s hbudget
 
-/-- Combine finite sampling and the existing Gaussian shape-stability theorem.
-The two half-budgets are exactly the per-column error in Section 5.2. -/
+/-- Combine finite sampling and the existing Gaussian shape-stability theorem. The two half-budgets
+are exactly the per-column error of the spectral hint generator. -/
 theorem computedNumberFieldSampleLaw_traceAverage_error (b : Basis (Fin d) ℤ (𝓞 K))
     (hGram : ∀ i j, canonicalGram K b i j = if i = j then (d : ℝ) else 0)
     {n k : ℕ} (hN : 2 ≤ n * d) (X : Matrix (Fin k) (Fin n) (𝓞 K))

@@ -30,10 +30,10 @@ section DiscreteVariation
 /-!
 ## Total variation and symmetric relative entropy
 
-For positive discrete probability masses, total variation is bounded by
-one half the square root of the symmetric relative entropy. For integer
-translates of a centred Gaussian, the two relative entropies are equal;
-this gives precisely the shift constant in Lemma 4.3.
+For positive discrete probability masses, total variation is bounded by one half the square root of
+the symmetric relative entropy. For integer translates of a centred Gaussian, the two relative
+entropies are equal; this gives precisely the shift constant in the elementary Gaussian estimates
+lemma.
 -/
 
 noncomputable section
@@ -261,7 +261,8 @@ theorem integerGaussian_symmetric (s : ℝ) (hs : 0 < s) (z : ℤ) :
     integerGaussian s hs (-z) = integerGaussian s hs z := by
   simp [integerGaussian_apply, integerGaussianWeight]
 
-/-- Tonelli's product identity on finitely many discrete coordinates. -/
+/-- Tonelli's product identity on finitely many discrete coordinates.
+-/
 theorem tsum_finite_product {α : Type*} : ∀ (n : ℕ) (f : Fin n → α → ℝ≥0∞),
     (∑' z : Fin n → α, ∏ i, f i (z i)) = ∏ i, ∑' x, f i x := by
   intro n
@@ -420,7 +421,8 @@ theorem discreteTotalVariation_le_of_uniform_ratios {α : Type*} (p q : PMF α)
     linarith
 
 /-- A uniform comparison before normalization suffices: the normalizing
-factor `c` need not be supplied with its own upper or lower bound. -/
+factor `c` need not be supplied with its own upper or lower bound.
+-/
 theorem discreteTotalVariation_le_of_flat_reweight {α : Type*} (p q : PMF α)
     {ε c : ℝ} (hε : 0 ≤ ε) (hε1 : ε < 1)
     (h : ∀ x, (1 - ε) * c * (q x).toReal ≤ (p x).toReal ∧
@@ -546,7 +548,8 @@ open MeasureTheory
 namespace GeometricGaussianLHL
 
 /-- Cauchy–Schwarz for the contribution of a nonnegative random variable
-on an arbitrary event. Both moment series are required to converge. -/
+on an arbitrary event. Both moment series are required to converge.
+-/
 theorem pmf_event_moment_sq_le {α : Type*} [MeasurableSpace α]
     [MeasurableSingletonClass α] (p : PMF α) (f : α → ℝ) (A : Set α)
     (hf : ∀ x, 0 ≤ f x)
@@ -796,7 +799,8 @@ theorem discreteTotalVariation_joint_le_good_event {α β : Type*}
   exact hs.trans_eq (add_comm _ _)
 
 /-- The discrete outer-measure formulation requires no measurable-space
-structure on the marginal type. -/
+structure on the marginal type.
+-/
 theorem discreteTotalVariation_joint_le_of_event_mass {α β : Type*}
     (p : PMF α) (q r : α → PMF β) (G : Set α) {δ ε : ℝ}
     (hprob : ENNReal.ofReal (1 - δ) ≤ p.toOuterMeasure G) (hε : 0 ≤ ε)
@@ -951,9 +955,9 @@ section JointEventBudgets
 /-!
 ## Separate exceptional-event budgets
 
-Two good events need not be independent. Their intersection pays the sum
-of their failure probabilities. This is the probability-accounting step
-required for the spectral variant of Corollary 5.2.
+Two good events need not be independent. Their intersection pays the sum of their failure
+probabilities. This is the probability-accounting step required for the spectral variant of the
+spherical-output corollary.
 -/
 
 noncomputable section

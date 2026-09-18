@@ -14,11 +14,10 @@ section NumberFieldLHL
 /-!
 ## Polynomial-width geometric Gaussian leftover hashing
 
-The finite and growing-rank polynomial-width cases of Corollary 5.1.
-The matrix marginal is the actual independent number-field Gaussian law;
-the conditional target is total and uses the actual image square root.
-The constant-width specialization depends on the still separate
-constant-width geometric theorem and is not asserted here.
+The finite and growing-rank polynomial-width cases of the geometric Gaussian LHL corollary. The
+matrix marginal is the actual independent number-field Gaussian law; the conditional target is total
+and uses the actual image square root. The constant-width specialization depends on the still
+separate constant-width geometric theorem and is not asserted here.
 -/
 
 noncomputable section
@@ -181,10 +180,10 @@ section NumberFieldConstantLHL
 /-!
 ## Constant-width geometric Gaussian leftover hashing
 
-The constant-width case completes Corollary 5.1. Both joint laws use the
-actual number-field Gaussian matrix marginal. The target is the total
-conditional image law, and centres can be arbitrary functions of the
-matrix. Independent reuse pays the bad-matrix probability only once.
+The constant-width case completes the geometric Gaussian LHL corollary. Both joint laws use the
+actual number-field Gaussian matrix marginal. The target is the total conditional image law, and
+centres can be arbitrary functions of the matrix. Independent reuse pays the bad-matrix probability
+only once.
 -/
 
 noncomputable section

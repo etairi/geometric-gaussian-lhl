@@ -74,7 +74,8 @@ theorem integerGaussian_signed_unit_translation {s : ℝ} (hs : 1 ≤ s) (v : �
   · rw [pmf_integer_translate_variation_neg, integerGaussian_unit_translation]
     exact integerGaussian_zero_mass_lt hs
 
-/-- Translating one coordinate costs at most its scalar total variation. -/
+/-- Translating one coordinate costs at most its scalar total variation.
+-/
 theorem independentProduct_single_translation_le {n : ℕ} (p : PMF ℤ) (i : Fin n) (v : ℤ) :
     discreteTotalVariation (independentProduct (fun _ : Fin n => p))
       ((independentProduct (fun _ : Fin n => p)).map (fun z => z + Pi.single i v)) ≤
@@ -191,7 +192,8 @@ theorem productGaussian_integer_escape_of_small_coordinates {n : ℕ} (y : Fin n
   linarith
 
 /-- A reusable scalar contraction criterion. A probability saving of
-`39/1000` away from the integers suffices for the original `39/40`. -/
+`39/1000` away from the integers suffices for the original `39/40`.
+-/
 theorem periodicGaussian_expectation_of_escape {α : Type*} [MeasurableSpace α]
     [MeasurableSingletonClass α] (p : PMF α) (f : α → ℝ) {t : ℝ} (ht : 8 ≤ t)
     (hescape : (39 / 1000 : ℝ) ≤ p.toMeasure.real {x | 1 / t ≤ integerDistance (f x)}) :
@@ -250,7 +252,8 @@ theorem integerLinearForm_eq_inner {n : ℕ} (y : Euclidean n) (z : Coeff n) :
   intro i _
   exact mul_comm _ _
 
-/-- The deterministic estimates needed for the small-coordinate case. -/
+/-- The deterministic estimates needed for the small-coordinate case.
+-/
 theorem constantWidth_small_coordinate_parameters {n : ℕ} (hn : 1 ≤ n)
     {s H : ℝ} (hs : 1 ≤ s) (hH : (n : ℝ) ≤ H) (y : Euclidean n)
     (hlen : 1 / (4 * s * Real.sqrt H) ≤ ‖y‖)
@@ -317,8 +320,8 @@ theorem constantWidth_small_coordinate_parameters {n : ℕ} (hn : 1 ≤ n)
   rw [mul_pow, Real.sq_sqrt hHp.le]
   nlinarith
 
-/-- The small-coordinate half of Lemma 4.11, for the actual Gaussian and
-literal Euclidean inner product, with the original constant `39/40`. -/
+/-- The small-coordinate half of the constant-width contraction lemma, for the actual Gaussian and
+literal Euclidean inner product, with the original constant `39/40` . -/
 theorem constantWidth_small_coordinate_contraction {n : ℕ} (hn : 1 ≤ n)
     {s H : ℝ} (hs : 1 ≤ s) (hH : (n : ℝ) ≤ H) (y : Euclidean n)
     (hlen : 1 / (4 * s * Real.sqrt H) ≤ ‖y‖)
@@ -381,7 +384,8 @@ theorem nonnegative_product_le_witness {d : ℕ} (f : Fin d → ℝ) (i : Fin d)
   rw [hc] at h
   exact mul_le_mul_of_nonneg_left h (hf i)
 
-/-- The exact `49/50` block constant from a `39/40` scalar contraction. -/
+/-- The exact `49/50` block constant from a `39/40` scalar contraction.
+-/
 theorem periodicGaussian_block_contraction {α : Type*} {d : ℕ} (p : PMF α)
     (g : Fin d → α → ℝ) (i : Fin d) {t : ℝ} (ht : 8 ≤ t)
     (hd : (d : ℝ) * 1000 ≤ t ^ 2)
@@ -418,7 +422,7 @@ theorem periodicGaussian_block_contraction {α : Type*} {d : ℕ} (p : PMF α)
   have hnum := mul_le_mul_of_nonneg_left hpow (by norm_num : (0 : ℝ) ≤ 39 / 40)
   linarith
 
-/-- The block conclusion of Lemma 4.11 in the small-coordinate case. The
+/-- The block conclusion of the constant-width contraction lemma in the small-coordinate case. The
 witness identity is enough; all other factors may be arbitrarily dependent. -/
 theorem constantWidth_small_coordinate_block {n d : ℕ} (hn : 1 ≤ n) (hd : d ≤ n)
     {s H : ℝ} (hs : 1 ≤ s) (hH : (n : ℝ) ≤ H) (y : Euclidean n)
@@ -505,7 +509,8 @@ theorem orientedInteger_abs (y : ℝ) (v : ℤ) : |orientedInteger y v| = |v| :=
   split <;> simp
 
 /-- When the coordinate is below `2/t`, a signed ceiling shift has norm
-at most half the Gaussian width and the required slab displacement. -/
+at most half the Gaussian width and the required slab displacement.
+-/
 theorem exists_large_coordinate_ceiling_shift {n : ℕ} (y : Euclidean n) (i : Fin n)
     {s t : ℝ} (hs : 0 < s) (ht : 8 ≤ t)
     (hlo : 8 / (s * t) ≤ |y i|) (hhi : |y i| < 2 / t) :
@@ -596,10 +601,10 @@ section ConstantWidthContraction
 /-!
 ## Uniform contraction at constant width
 
-Lemma 4.11 for the actual product integer Gaussian. A large coordinate
-supplies a disjoint integer translate with controlled total variation;
-the complementary case uses the proved fourth-moment argument. A witness
-identity factor gives the block conclusion without within-block independence.
+The constant-width contraction lemma for the actual product integer Gaussian. A large coordinate
+supplies a disjoint integer translate with controlled total variation; the complementary case uses
+the proved fourth-moment argument. A witness identity factor gives the block conclusion without
+within-block independence.
 -/
 
 noncomputable section
@@ -660,7 +665,8 @@ theorem productGaussian_large_coordinate_contraction {n : ℕ} {s t : ℝ}
   change discreteTotalVariation p (p.map (fun z => z + v)) ≤ 921 / 1000 at htv
   linarith
 
-/-- Lemma 4.11's scalar assertion, with the original constant and parameters. -/
+/-- The constant-width contraction lemma's scalar assertion, with the original constant and
+parameters. -/
 theorem constantWidth_scalar_contraction {n : ℕ} (hn : 1 ≤ n) {s H : ℝ}
     (hs : 1 ≤ s) (hH : (n : ℝ) ≤ H) (y : Euclidean n) (hcube : y ∈ centeredUnitCube n)
     (hlen : 1 / (4 * s * Real.sqrt H) ≤ ‖y‖) :
@@ -676,8 +682,8 @@ theorem constantWidth_scalar_contraction {n : ℕ} (hn : 1 ≤ n) {s H : ℝ}
       (Real.le_sqrt (by norm_num) (by linarith)).mpr (by simpa using hH1)
     exact productGaussian_large_coordinate_contraction hs (by linarith) y hcube i hi.le
 
-/-- Lemma 4.11's block assertion. The identity witness is the only relation
-required between factors; no independence within a block is assumed. -/
+/-- The constant-width contraction lemma's block assertion. The identity witness is the only
+relation required between factors; no independence within a block is assumed. -/
 theorem constantWidth_block_contraction {n d : ℕ} (hn : 1 ≤ n) (hd : d ≤ n) {s H : ℝ}
     (hs : 1 ≤ s) (hH : (n : ℝ) ≤ H) (y : Euclidean n) (hcube : y ∈ centeredUnitCube n)
     (hlen : 1 / (4 * s * Real.sqrt H) ≤ ‖y‖)
@@ -707,8 +713,8 @@ theorem constantWidth_operator_column_contraction {n d : ℕ} (hn : 1 ≤ n) (hd
   intro z
   rw [hidentity, LinearMap.id_apply]
 
-/-- Literal integer multiplication matrices, as used in the ring-column
-construction. In particular this covers the matrices in Lemma 4.11. -/
+/-- Literal integer multiplication matrices, as used in the ring-column construction. In particular
+this covers the matrices in the constant-width contraction lemma. -/
 theorem constantWidth_coefficient_column_contraction {n d : ℕ} (hn : 1 ≤ n) (hd : d ≤ n) {s H : ℝ}
     (hs : 1 ≤ s) (hH : (n : ℝ) ≤ H) (y : Euclidean n) (hcube : y ∈ centeredUnitCube n)
     (hlen : 1 / (4 * s * Real.sqrt H) ≤ ‖y‖)
@@ -920,9 +926,9 @@ section ConstantWidthRemainder
 /-!
 ## Remainder decay at constant width
 
-The actual independent Gaussian columns factor the theta integrand.
-The proved `49/50` block contraction, determinant bound, Tonelli and Markov
-then give the remainder exceptional-event bound in Theorem 4.9.
+The actual independent Gaussian columns factor the theta integrand. The proved `49/50` block
+contraction, determinant bound, Tonelli and Markov then give the remainder exceptional-event bound
+in the constant-width smoothing theorem.
 -/
 
 noncomputable section
@@ -1116,8 +1122,9 @@ theorem constantWidth_matrix_failure {R d m : ℕ} (hR : 1 ≤ R) (hm : 1 ≤ m)
 variable {F : Type*} [NormedAddCommGroup F] [InnerProductSpace ℝ F]
   [FiniteDimensional ℝ F]
 
-/-- The coefficient form of Theorem 4.9, with metric transport and a common
-exceptional event for all positive errors. -/
+/-- The coefficient form of the constant-width smoothing theorem, with metric transport and a common
+exceptional event for all positive errors.
+-/
 theorem constantWidth_matrix_certificate {R d m : ℕ} (hR : 1 ≤ R) (hm : 1 ≤ m) (hdR : d ≤ R)
     {s δ α : ℝ} (hs : 1 ≤ s) (hδ : 0 < δ) (hδbound : δ ≤ 1 / 32)
     (T : Fin d → Matrix (Fin R) (Fin R) ℤ) (i : Fin d) (hidentity : T i = 1)
@@ -1157,9 +1164,9 @@ section NumberFieldConstantWidth
 /-!
 ## Constant-width smoothing over power-of-two number fields
 
-Theorem 4.9 for the actual ring-Gaussian matrix distribution and canonical
-kernel, with the printed scale and constants. The same argument includes
-the rational case in the remark following the theorem.
+The constant-width smoothing theorem for the actual ring-Gaussian matrix distribution and canonical
+kernel, with the printed scale and constants. The same argument includes the rational case in the
+remark following the theorem.
 -/
 
 noncomputable section
@@ -1201,9 +1208,8 @@ local instance constantAmbientInner : InnerProductSpace ℝ (CanonicalAmbient K)
 local instance constantSpaceInner : InnerProductSpace ℝ (canonicalSpace K) := inferInstance
 local instance constantPowerInner (n : ℕ) : InnerProductSpace ℝ (CanonicalPower K n) := inferInstance
 
-/-- Theorem 4.9, with the common event for all positive error parameters.
-The coefficient dual mass and column bounds are retained for the LHL
-consequences in Section 5.1. -/
+/-- The constant-width smoothing theorem, with the common event for all positive error parameters.
+The coefficient dual mass and column bounds are retained for the LHL consequences. -/
 theorem numberField_constantWidth_certificate (hζ : IsPrimitiveRoot ζ (2 ^ (k + 1)))
     {r m : ℕ} (hr : 1 ≤ r) (hmr : r < m) {ell s : ℝ} (hell : 1 ≤ ell)
     (hs : 0 < s) (hwidth : Real.sqrt (2 ^ (k + 1)).totient ≤ s)
@@ -1282,8 +1288,8 @@ section ConstantWidthFamily
 /-!
 ## Uniform column budgets at coefficient width one
 
-The absolute constants below prove the asymptotic assertion of Remark 4.13.
-The threshold is independent of both the degree and the row count. A coarse
+The absolute constants below prove the asymptotic assertion of the constant-width asymptotic
+parameter discussion. The threshold is independent of both the degree and the row count. A coarse
 quadratic bound for the scale suffices inside its logarithm.
 -/
 noncomputable section
@@ -1437,10 +1443,10 @@ section PowerTwoPinned
 /-!
 ## The numerical power-of-two pinned smoothing bounds
 
-The two numerical variants of Corollary 4.15 refer to the actual Gaussian
-matrix law and canonical kernel. The upper bound is compared with the
-projected-dual lower bound at error `2^(-ell)`. The threshold `ell ≥ 28`
-is derived from the stated hypotheses, not added as an assumption.
+The two numerical variants of the smoothing-parameter pinning corollary refer to the actual Gaussian
+matrix law and canonical kernel. The upper bound is compared with the projected-dual lower bound at
+error `2^(-ell)` . The threshold `ell ≥ 28` is derived from the stated hypotheses, not added as an
+assumption.
 -/
 
 noncomputable section
@@ -1475,7 +1481,7 @@ theorem powerTwoKernel_security_bounds (hζ : IsPrimitiveRoot ζ (2 ^ (k + 1)))
   refine ⟨?_, hupper⟩
   simpa only [powerTwoSecurityLowerBound, one_div, div_inv_eq_mul, mul_comm] using hlower
 
-/-- The polynomial-width numerical ratio in Corollary 4.15. -/
+/-- The polynomial-width numerical ratio in the smoothing-parameter pinning corollary. -/
 theorem powerTwo_polynomial_pinned (hζ : IsPrimitiveRoot ζ (2 ^ (k + 1)))
     (hr : 1 ≤ r) (hmr : r < m) {ell s : ℝ} (hell : 1 ≤ ell) (hs : 0 < s)
     (hwidth : 8 * Real.sqrt ((2 ^ (k + 1)).totient * (r * (2 ^ (k + 1)).totient)) ≤ s)
@@ -1530,7 +1536,7 @@ theorem powerTwo_polynomial_pinned (hζ : IsPrimitiveRoot ζ (2 ^ (k + 1)))
   exact ⟨(hgood X hX).1, powerTwoKernel_security_bounds K hζ X hmr
     (mul_pos (by norm_num) (realSecurityError_pos _)) hε (hgood X hX).2⟩
 
-/-- The constant-width numerical ratio in Corollary 4.15. -/
+/-- The constant-width numerical ratio in the smoothing-parameter pinning corollary. -/
 theorem powerTwo_constantWidth_pinned (hζ : IsPrimitiveRoot ζ (2 ^ (k + 1)))
     (hr : 1 ≤ r) (hmr : r < m) {ell s : ℝ} (hell : 1 ≤ ell) (hs : 0 < s)
     (hwidth : Real.sqrt (2 ^ (k + 1)).totient ≤ s)
@@ -1586,9 +1592,9 @@ section ConstantWidthAsymptotic
 /-!
 ## Constant-width asymptotics uniformly in the field degree
 
-Remark 4.13 at coefficient width one, for the actual Gaussian matrix law.
-The same absolute column coefficient, smoothing constant and threshold work
-for every power-of-two cyclotomic field and every row count with `λ ≤ dr ≤ 2λ`.
+The constant-width asymptotic parameter discussion at coefficient width one, for the actual Gaussian
+matrix law. The same absolute column coefficient, smoothing constant and threshold work for every
+power-of-two cyclotomic field and every row count with `λ ≤ dr ≤ 2λ` .
 -/
 noncomputable section
 set_option backward.isDefEq.respectTransparency false

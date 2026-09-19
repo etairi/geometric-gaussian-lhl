@@ -4,6 +4,8 @@ open Lake DSL
 
 package «geometric-gaussian-lhl-certificate» where
   version := v!"0.1.0"
+  -- Limit memory use while checking the exact numerical certificates.
+  weakLeanArgs := #["-j1"]
 
 require mathlib from git
   "https://github.com/leanprover-community/mathlib4.git" @ "e06eff5f95374108acfaf19f1ff7473aa7771df2"

@@ -94,14 +94,10 @@ docker buildx build --platform linux/arm64 --load \
   --tag geometric-gaussian-lhl:arm64 .
 ```
 
-The complete native and `linux/arm64` Docker builds have passed, including both
-axiom audits. The `linux/amd64` build has not been tested. Emulated builds are
-slower than native builds.
-
 ## Kernel Audit
 
 [`GeometricGaussianLHL/Audit.lean`](GeometricGaussianLHL/Audit.lean) prints the
-axiom dependencies of 1,877 certificate declarations.
+axiom dependencies of 2,461 certificate declarations.
 [`SIS-to-kSIS/Audit.lean`](SIS-to-kSIS/Audit.lean) recursively audits 2,958
 declarations in the reduction namespace and rejects unexpected axioms.
 Successful audits report only Lean's standard logical foundations:

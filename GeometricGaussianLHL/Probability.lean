@@ -618,25 +618,6 @@ theorem pmf_paley_zygmund {α : Type*} [MeasurableSpace α]
   have hsq := (sq_le_sq₀ (sub_nonneg.mpr hmean) hi).mpr (sub_le_iff_le_add.mpr (by linarith))
   exact hsq.trans (pmf_event_moment_sq_le p f A hf hs hs₂)
 
-/-- A fourth moment at most five times the variance squared forces at least
-`1/20` of the probability beyond half the second moment. -/
-theorem pmf_square_escape_of_fourth_moment {α : Type*} [MeasurableSpace α]
-    [MeasurableSingletonClass α] (p : PMF α) (S : α → ℝ) {V : ℝ}
-    (hV : 0 < V)
-    (hs₂ : Summable (fun x => (p x).toReal * (S x) ^ 2))
-    (hs₄ : Summable (fun x => (p x).toReal * (S x) ^ 4))
-    (hsecond : (∑' x, (p x).toReal * (S x) ^ 2) = V)
-    (hfourth : (∑' x, (p x).toReal * (S x) ^ 4) ≤ 5 * V ^ 2) :
-    (1 / 20 : ℝ) ≤ p.toMeasure.real {x | V / 2 < (S x) ^ 2} := by
-  have h := pmf_paley_zygmund p (fun x => (S x) ^ 2) (fun x => sq_nonneg _)
-    hs₂ (by simpa only [← pow_mul] using hs₄) (a := V / 2) (by positivity)
-    (by rw [hsecond]; linarith)
-  simp only [← pow_mul, hsecond] at h
-  have hp := measureReal_nonneg (μ := p.toMeasure) (s := {x | V / 2 < (S x) ^ 2})
-  have hm := mul_le_mul_of_nonneg_right hfourth hp
-  have hVs : 0 < V ^ 2 := sq_pos_of_pos hV
-  nlinarith
-
 end GeometricGaussianLHL
 end
 

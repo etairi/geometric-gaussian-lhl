@@ -1271,7 +1271,7 @@ section IntegerGaussianFourthMoment
 
 Poisson summation compares the partitions at widths `s` and `sqrt 2 * s`.
 This controls a squared exponential moment and then the fourth moment,
-which will support an elementary constant-width contraction proof.
+which supports the uniform escape estimate used in the spectral lower bound.
 -/
 
 noncomputable section
@@ -1623,9 +1623,8 @@ section ProductGaussianFourthMoment
 /-!
 ## Exact second and fourth moments of Gaussian linear forms
 
-Independence supplies the exact fourth-moment formula. Small coordinates
-then bound it by five times the second moment squared, allowing a direct
-Paley–Zygmund escape estimate for the actual product Gaussian.
+Independence supplies the exact fourth-moment formula. The coordinate bound
+below gives the uniform moment estimate used by the spectral escape proof.
 -/
 
 noncomputable section
@@ -1695,41 +1694,6 @@ theorem productGaussianMoment_fourth_le {n : ℕ} (y : Fin n → ℝ) (s : ℝ) 
   rw [productGaussianMoment_fourth]
   have hv := mul_nonneg (sq_nonneg (integerGaussianSecondMoment s hs)) hn
   nlinarith
-
-/-- Uniformly small coordinates give the moment ratio needed below. -/
-theorem productGaussianMoment_fourth_le_five {n : ℕ} (y : Fin n → ℝ) {s : ℝ} (hs : 1 ≤ s)
-    (hy : ∀ i, y i ^ 2 ≤ (∑ j, y j ^ 2) / 400) :
-    productGaussianMoment y s (by linarith) 4 ≤
-      5 * (integerGaussianSecondMoment s (by linarith) * ∑ i, y i ^ 2) ^ 2 := by
-  have hsp : 0 < s := by linarith
-  let Q : ℝ := ∑ i, y i ^ 2
-  let v := integerGaussianSecondMoment s hsp
-  have hQ : 0 ≤ Q := Finset.sum_nonneg (fun i _ => sq_nonneg _)
-  have hv : s ^ 2 / 16 ≤ v := integerGaussianSecondMoment_lower hs
-  have hv0 : 0 ≤ v := integerGaussianSecondMoment_nonneg s hsp
-  have hv2 : s ^ 4 ≤ 256 * v ^ 2 := by
-    have hsq := (sq_le_sq₀ (by positivity : 0 ≤ s ^ 2 / 16) hv0).mpr hv
-    nlinarith
-  have h := productGaussianMoment_fourth_le y s hsp hy
-  change productGaussianMoment y s hsp 4 ≤ 3 * (v * Q) ^ 2 + 2 * s ^ 4 * (Q / 400) * Q at h
-  have hm := mul_le_mul_of_nonneg_right hv2 (sq_nonneg Q)
-  change productGaussianMoment y s hsp 4 ≤ 5 * (v * Q) ^ 2
-  nlinarith [sq_nonneg (v * Q)]
-
-/-- At least `1/20` of an actual product Gaussian linear form exceeds
-half its second moment in squared magnitude. -/
-theorem productGaussian_square_escape {n : ℕ} (y : Fin n → ℝ) {s : ℝ} (hs : 1 ≤ s)
-    (hQ : 0 < ∑ i, y i ^ 2) (hy : ∀ i, y i ^ 2 ≤ (∑ j, y j ^ 2) / 400) :
-    (1 / 20 : ℝ) ≤ (productIntegerGaussian n s (by linarith)).toMeasure.real
-      {z | (integerGaussianSecondMoment s (by linarith) * ∑ i, y i ^ 2) / 2 <
-        integerLinearForm y z ^ 2} := by
-  have hsp : 0 < s := by linarith
-  apply pmf_square_escape_of_fourth_moment (productIntegerGaussian n s hsp) (integerLinearForm y)
-  · exact mul_pos ((by positivity : 0 < s ^ 2 / 16).trans_le (integerGaussianSecondMoment_lower hs)) hQ
-  · exact summable_productGaussian_moment y s hsp 2
-  · exact summable_productGaussian_moment y s hsp 4
-  · exact productGaussianMoment_second y s hsp
-  · exact productGaussianMoment_fourth_le_five y hs hy
 
 end GeometricGaussianLHL
 end
@@ -3709,26 +3673,6 @@ theorem productGaussian_abs_tail {n : ℕ} (y : Fin n → ℝ) (s : ℝ) (hs : 0
   have h := mul_le_mul_of_nonneg_right hy (sq_nonneg u)
   apply (div_le_div_of_nonneg_right _ (by positivity))
   nlinarith only [h]
-
-theorem gaussian_small_tail_constant : 2 * Real.exp (-400 * Real.pi) < (1 / 1000 : ℝ) := by
-  have h := Real.pow_div_factorial_le_exp (400 * Real.pi) (by positivity) 2
-  norm_num only [Nat.factorial, Nat.cast_ofNat] at h
-  have he : 2000 < Real.exp (400 * Real.pi) := by nlinarith [Real.pi_gt_three]
-  rw [show -400 * Real.pi = -(400 * Real.pi) by ring, Real.exp_neg]
-  apply (mul_inv_lt_iff₀ (Real.exp_pos _)).mpr
-  linarith
-
-theorem productGaussian_quarter_tail {n : ℕ} (y : Fin n → ℝ) (s : ℝ) (hs : 0 < s)
-    (hy : s ^ 2 * (∑ i, y i ^ 2) ≤ 1 / 6400) :
-    (productIntegerGaussian n s hs).toMeasure.real {z | (1 / 4 : ℝ) < |integerLinearForm y z|} <
-      1 / 1000 := by
-  have h := productGaussian_abs_tail y s hs (by norm_num : (0 : ℝ) < 1 / 6400)
-    (by norm_num : (0 : ℝ) < 1 / 4) hy
-  have he : -Real.pi * (1 / 4 : ℝ) ^ 2 / (1 / 6400) = -400 * Real.pi := by ring
-  rw [he] at h
-  have hr := ENNReal.toReal_mono ENNReal.ofReal_ne_top h
-  rw [ENNReal.toReal_ofReal (by positivity)] at hr
-  exact hr.trans_lt gaussian_small_tail_constant
 
 end GeometricGaussianLHL
 end

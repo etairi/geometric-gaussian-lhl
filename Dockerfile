@@ -24,7 +24,8 @@ RUN curl --proto '=https' --tlsv1.2 --fail --silent --show-error \
     | sh -s -- -y --default-toolchain none
 
 COPY --chown=lean:lean lean-toolchain ./
-RUN elan toolchain install "$(cat lean-toolchain)"
+# Accept both LF and CRLF line endings in Windows checkouts.
+RUN elan toolchain install "$(tr -d '\r\n' < lean-toolchain)"
 COPY --chown=lean:lean . .
 
 CMD ["bash", "-c", "lake exe cache get && lake build"]
